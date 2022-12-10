@@ -17,18 +17,18 @@ Classification|[ResNet-50](https://github.com/mlcommons/inference_results_v2.1/t
 Object Detection|[SSD-ResNet-34](https://github.com/mlcommons/inference_results_v2.0/tree/master/closed/NVIDIA/results/Orin_TRT/ssd-resnet34/Offline/accuracy)|mAP COCO 2017*: 0.21<br>(GPU INT8: 0.21, [FP32 reference 0.20](https://github.com/mlcommons/inference/tree/master/vision/classification_and_detection))|NMS (Last node of the network)|See [SSD-ResNet-34](scripts/prepare_models/README.md/#ssd-resnet-34) section in `scripts/prepare_models/README.md`
 Object Detection|[SSD-MobileNetV1](https://github.com/mlcommons/inference_results_v2.0/tree/master/closed/NVIDIA/results/Orin_TRT/ssd-mobilenet/Offline/accuracy)|mAP COCO 2017*: 0.23<br>(GPU INT8: 0.23, [FP32 reference: 0.23](https://github.com/mlcommons/inference/blob/f301a4bdbd1d4bf6781a8925a3bd3967f9855458/README.md))|NMS (Last node of the network)|See [SSD-MobileNetV1](scripts/prepare_models/README.md/#ssd-mobilenetv1) section in `scripts/prepare_models/README.md`
 
-**Accuracy measured internally by NVIDIA, there may be slight differences compared to previous MLPerf submissions.*
+**Accuracy measured internally by NVIDIA, there may be slight differences compared to previous MLPerf Inference submissions.*
 
 Key takeaways:
 - Networks tend to have common network backbones and some variation at the end. You can run the compute-intensive backbones on DLA and final layers for post-processing on the GPU.
 - GPU and DLA are not bitwise accurate. So the difference in the math is expected and the difference would be within a certain acceptable % of the FP32 reference.
 
 More resources:
-- MLPerf 2.1 (Orin DLA): https://mlcommons.org/en/inference-edge-21/
-- MLPerf 2.0 (Xavier & Orin DLA): https://mlcommons.org/en/inference-edge-20/
+- MLPerf Inference 2.1 (Orin DLA): https://mlcommons.org/en/inference-edge-21/
+- MLPerf Inference 2.0 (Xavier & Orin DLA): https://mlcommons.org/en/inference-edge-20/
 
 ## Setup
-Install the Python depencencies with:
+Install the Python dependencies with:
 ```bash
 python3 -m pip install requirements.txt
 ```
