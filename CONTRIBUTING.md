@@ -3,7 +3,7 @@
 
 #### Issue Tracking
 
-* All enhancement, bugfix, or change requests must begin with the creation of a [DLA SW Issue Request](https://github.com/nvidia/).
+* All enhancement, bugfix, or change requests must begin with the creation of a [DLA SW Issue Request](https://github.com/NVIDIA/Deep-Learning-Accelerator-SW).
   * The issue request must be reviewed by TensorRT engineers and approved prior to code review.
 
 
@@ -74,18 +74,19 @@
 
 
 #### Pull Requests
+
 Developer workflow for code contributions is as follows:
 
 1. Developers must first [fork](https://help.github.com/en/articles/fork-a-repo) the [upstream](https://github.com/nvidia/TensorRT) TensorRT OSS repository.
 
 2. Git clone the forked repository and push changes to the personal fork.
 
-  ```bash
+```bash
 git clone https://github.com/YOUR_USERNAME/YOUR_FORK.git TensorRT
 # Checkout the targeted branch and commit changes
 # Push the commits to a branch on the fork (remote).
 git push -u origin <local-branch>:<remote-branch>
-  ```
+```
 
 3. Once the code changes are staged on the fork and ready for review, a [Pull Request](https://help.github.com/en/articles/about-pull-requests) (PR) can be [requested](https://help.github.com/en/articles/creating-a-pull-request) to merge the changes from a branch of the fork into a selected branch of upstream.
   * Exercise caution when selecting the source and target branches for the PR.
@@ -95,7 +96,6 @@ git push -u origin <local-branch>:<remote-branch>
   * While under review, mark your PRs as work-in-progress by prefixing the PR title with [WIP].
 
 4. Since there is no CI/CD process in place yet, the PR will be accepted and the corresponding issue closed only after adequate testing has been completed, manually, by the developer and/or TensorRT engineer reviewing the code.
-
 
 #### Signing Your Work
 
