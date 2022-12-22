@@ -1,6 +1,6 @@
 # Instructions to Download, Prepare & Run DLA Reference Models
 
-This page provides instructions for optimizing the performance of models running on DLA. 
+This page provides instructions for optimizing the performance of models running on DLA.
 Make sure you install the Python dependencies from `requirements.txt`.
 
 Below steps were run with TensorRT 8.5 on an Orin L4T platform where `trtexec` was present in `/usr/local/tensorrt/bin/trtexec`.
@@ -37,7 +37,7 @@ Source: https://github.com/mlcommons/inference/blob/2acca351fbdf7821a5d8fa1d9a97
 1. Download `resnet34-ssd1200.onnx` from above links
 2. Run `python3 ssd_resnet34.py` on any platform (host or Orin target)
 3. Copy the generated `resnet34-ssd1200_prepared.onnx` to your Orin target
-4. Run the following command on your Orin target: `./trtexec --useDLACore=0 --int8 --memPoolSize=dlaSRAM:1MiB --inputIOFormats=int8:dla_hwc4 --outputIOFormats=int8:chw32 --onnx=dla/regression/testdb/resnet34-ssd1200_prepared.onnx`
+4. Run the following command on your Orin target: `./trtexec --useDLACore=0 --int8 --memPoolSize=dlaSRAM:1MiB --inputIOFormats=int8:dla_hwc4 --outputIOFormats=int8:chw32 --onnx=resnet34-ssd1200_prepared.onnx`
 
 ## SSD-MobileNetV1
 
