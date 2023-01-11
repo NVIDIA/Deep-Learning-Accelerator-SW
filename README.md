@@ -4,6 +4,8 @@ NVIDIA DLA hardware is a fixed-function accelerator engine targeted for deep lea
 
 DLA software consists of the DLA compiler and the DLA runtime stack. The offline compiler translates the neural network graph into a DLA loadable binary and can be invoked using NVIDIA TensorRT™, NvMedia-DLA or cuDLA. The runtime stack consists of the DLA firmware, kernel mode driver, and user mode driver.
 
+Reference for more details: [DLA product page](https://developer.nvidia.com/deep-learning-accelerator)
+
 
 ## DLA Reference Models
 
