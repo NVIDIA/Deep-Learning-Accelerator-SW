@@ -4,6 +4,8 @@ NVIDIA DLA hardware is a fixed-function accelerator engine targeted for deep lea
 
 DLA software consists of the DLA compiler and the DLA runtime stack. The offline compiler translates the neural network graph into a DLA loadable binary and can be invoked using NVIDIA TensorRT™, NvMedia-DLA or cuDLA. The runtime stack consists of the DLA firmware, kernel mode driver, and user mode driver.
 
+Reference for more details: [DLA product page](https://developer.nvidia.com/deep-learning-accelerator)
+
 
 ## DLA Reference Models
 
@@ -26,6 +28,11 @@ Key takeaways:
 More resources:
 - MLPerf Inference 2.1 (Orin DLA): https://mlcommons.org/en/inference-edge-21/
 - MLPerf Inference 2.0 (Xavier & Orin DLA): https://mlcommons.org/en/inference-edge-20/
+
+## ONNX operators supported on DLA
+
+See [operators/README.md](operators/README.md) for details on ONNX operators already supported on DLA and planned to be supported in future releases.
+
 
 ## Setup
 Install the Python dependencies with:
