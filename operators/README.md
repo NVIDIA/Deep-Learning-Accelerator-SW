@@ -9,6 +9,8 @@ See [General Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/develop
 
 TensorRT 8.5 supports operators up to Opset 17. Latest information of ONNX operators can be found [here](https://github.com/onnx/onnx/blob/master/docs/Operators.md).
 
+Note that the scripts in `op_reconstruction/` are intended as a recipe for how ops currently not supported on DLA can be decomposed into supported ops. Depending on your setup, you may choose to perform such op reconstructions in the ONNX domain post-training (as done here) or during the training process (for example in TensorFlow or PyTorch).
+
 ## Operator Support Matrix
 
 | Operator                  | Orin DLA support through TensorRT | Orin DLA support through DLA SW   | Restrictions                                                                                                           |
