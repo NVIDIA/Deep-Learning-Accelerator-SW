@@ -29,6 +29,11 @@ More resources:
 - MLPerf Inference 2.1 (Orin DLA): https://mlcommons.org/en/inference-edge-21/
 - MLPerf Inference 2.0 (Xavier & Orin DLA): https://mlcommons.org/en/inference-edge-20/
 
+## ONNX operators supported on DLA
+
+See [operators/README.md](operators/README.md) for details on ONNX operators already supported on DLA and planned to be supported in future releases.
+
+
 ## Setup
 Install the Python dependencies with:
 ```bash
