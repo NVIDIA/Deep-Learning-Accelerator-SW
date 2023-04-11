@@ -1,27 +1,29 @@
 # Frequently Asked Questions about DLA
 
 ## Table of contents
-- [Which NVIDIA Jetson or DRIVE Modules have DLA?](#which-nvidia-jetson-modules-have-dla-)
-- [What is DLA Core and what is DLA Falcon?](#what-is-dla-core-and-what-is-dla-falcon-)
-- [Are there specific networks or a list of networks recommended for DLA?](#are-there-specific-networks-or-a-list-of-networks-recommended-for-dla-)
-- [Does DLA support Point-Pillar Networks?](#does-dla-support-point-pillar-networks-)
-- [What kind of overhead exists when you deploy a network with layers alternating between GPU and DLA?](#what-kind-of-overhead-exists-when-you-deploy-a-network-with-layers-alternating-between-gpu-and-dla-)
-- [Why is the latency higher when running workloads on two DLA cores and GPU?](#why-is-the-latency-higher-when-running-workloads-on-two-dla-cores-and-gpu-)
-- [What precision formats are supported on DLA?](#what-precision-formats-are-supported-on-dla-)
-- [How does FP16 performance compare to INT8?](#how-does-fp16-performance-compare-to-int8-)
-- [How do you quantize the network to INT8 for DLA?](#how-do-you-quantize-the-network-to-int8-for-dla-)
-- [Is a calibration file always necessary to convert a model to INT8?](#is-a-calibration-file-always-necessary-to-convert-a-model-to-int8-)
-- [Is ONNX the recommended way to go from PyTorch to TensorRT?](#is-onnx-the-recommended-way-to-go-from-pytorch-to-tensorrt-)
-- [What's the difference between Dense TOPs and Sparse TOPS?](#what-s-the-difference-between-dense-tops-and-sparse-tops-)
-- [Can we scale the clock frequency on DLA?](#can-we-scale-the-clock-frequency-on-dla-)
-- [Can the DLA directly access the data in the DRAM system memory?](#can-the-dla-directly-access-the-data-in-the-dram-system-memory-)
-- [How much internal SRAM does the DLA have?](#how-much-internal-sram-does-the-dla-have-)
-- [How does the inference latency on DLA compare to that of GPU?](#how-does-the-inference-latency-on-dla-compare-to-that-of-gpu-)
-- [Is it possible to run multiple networks concurrently on two DLA cores?](#is-it-possible-to-run-multiple-networks-concurrently-on-two-dla-cores-)
-- [Can multiple models run on a single DLA?](#can-multiple-models-run-on-a-single-dla-)
-- [What tools and utilities are available for profiling and debugging DLA workloads?](#what-tools-and-utilities-are-available-for-profiling-and-debugging-dla-workloads-)
-- [Will DLA help in reducing power consumption?](#will-dla-help-in-reducing-power-consumption-)
-- [Where can we learn more about how DLA is leveraged in ISAAC reference applications?](#where-can-we-learn-more-about-how-dla-is-leveraged-in-isaac-reference-applications-)
+- [Which NVIDIA Jetson or DRIVE Modules have DLA?](#which-nvidia-jetson-or-drive-modules-have-dla)
+- [What is DLA Core and what is DLA Falcon?](#what-is-dla-core-and-what-is-dla-falcon)
+- [Are there specific networks or a list of networks recommended for DLA?](#are-there-specific-networks-or-a-list-of-networks-recommended-for-dla)
+- [Does DLA support Point-Pillar Networks?](#does-dla-support-point-pillar-networks)
+- [What kind of overhead exists when you deploy a network with layers alternating between GPU and DLA?](#what-kind-of-overhead-exists-when-you-deploy-a-network-with-layers-alternating-between-gpu-and-dla)
+- [Why is the latency higher when running workloads on two DLA cores and GPU?](#why-is-the-latency-higher-when-running-workloads-on-two-dla-cores-and-gpu)
+- [What precision formats are supported on DLA?](#what-precision-formats-are-supported-on-dla)
+- [How does FP16 performance compare to INT8?](#how-does-fp16-performance-compare-to-int8)
+- [How do you quantize the network to INT8 for DLA?](#how-do-you-quantize-the-network-to-int8-for-dla)
+- [Is a calibration file always necessary to convert a model to INT8?](#is-a-calibration-file-always-necessary-to-convert-a-model-to-int8)
+- [Is ONNX the recommended way to go from PyTorch to TensorRT?](#is-onnx-the-recommended-way-to-go-from-pytorch-to-tensorrt)
+- [What's the difference between Dense TOPs and Sparse TOPS?](#whats-the-difference-between-dense-tops-and-sparse-tops)
+- [Can we scale the clock frequency on DLA?](#can-we-scale-the-clock-frequency-on-dla)
+- [Can the DLA directly access the data in the DRAM system memory?](#can-the-dla-directly-access-the-data-in-the-dram-system-memory)
+- [How much internal SRAM does the DLA have?](#how-much-internal-sram-does-the-dla-have)
+- [How does the inference latency on DLA compare to that of GPU?](#how-does-the-inference-latency-on-dla-compare-to-that-of-gpu)
+- [Is it possible to run multiple networks concurrently on two DLA cores?](#is-it-possible-to-run-multiple-networks-concurrently-on-two-dla-cores)
+- [Can multiple models run on a single DLA?](#can-multiple-models-run-on-a-single-dla)
+- [What tools and utilities are available for profiling and debugging DLA workloads?](#what-tools-and-utilities-are-available-for-profiling-and-debugging-dla-workloads)
+- [Will DLA help in reducing power consumption?](#will-dla-help-in-reducing-power-consumption)
+- [Where can we learn more about how DLA is leveraged in ISAAC reference applications?](#where-can-we-learn-more-about-how-dla-is-leveraged-in-isaac-reference-applications)
+- [What does "CBUF validation" mean if I try to run a Convolution on DLA through TensorRT?](#what-does-cbuf-validation-mean-if-i-try-to-run-a-convolution-on-dla-through-tensorrt)
+- [I am running into an issue on my DLA, what do I do?](#i-am-running-into-an-issue-on-my-dla-what-do-i-do)
 
 ### Which NVIDIA Jetson or DRIVE Modules have DLA?
 All Jetson AGX Orin & Orin NX boards, and all prior generation Jetson AGX Xavier & Xavier NX modules have DLA Cores. [This](https://docs.nvidia.com/jetson/archives/r35.1/DeveloperGuide/text/SD/PlatformPowerAndPerformance/JetsonOrinNxSeriesAndJetsonAgxOrinSeries.html#supported-modes-and-power-efficiency) is a very handy reference for all platforms with at least one DLA instance and their corresponding clock settings. DRIVE Xavier and DRIVE Orin also have DLA Cores.
@@ -101,7 +103,6 @@ However, when you look at it from an application perspective, you can reduce you
 
 If you want to evaluate device performance for a certain workload, we recommend starting with the calculation of math utilization for GPU and DLA. The math utilization is calculated by dividing the achieved throughput (number of images per second times FLOPs per image) by the theoretical peak throughput of the accelerator at the used precision (number of operations per second, often indicated in Tera operations per seconds or TOPs).
 
-
 ### Is it possible to run multiple networks concurrently on two DLA cores?
 Yes, it is possible to run multiple networks on both DLAs concurrently (so model A runs on the first instance, and model B runs on the second instance). You can do the same with two instances of the same network. In fact, you can concurrently run multiple networks on GPU and the DLA cores.
 One way to quickly get started is by running two concurrent trtexec processes, where the first one is run with `--useDLACore=0`, and the second one with `--useDLACore=1`. If you want to use 2 DLA Cores in the same process, use [this TensorRT API](https://docs.nvidia.com/deeplearning/tensorrt/api/c_api/classnvinfer1_1_1_i_builder_config.html#a9bf5696456d7c54203075006ac5fc9f5). 
@@ -124,3 +125,9 @@ Yes, DLA is optimized for high performance per watt. If you want to reduce the p
 
 ### Where can we learn more about how DLA is leveraged in ISAAC reference applications?
 ISAAC SDK has a reference application for proximity segmentation using stereo data. The application has a requirement of having two independent paths and the team designed the independent pipelines to leverage both GPU and DLA optimally. You can find the code and their network architecture in the link here: https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_proximity_segmentation
+
+### What does "CBUF validation" mean if I try to run a Convolution on DLA through TensorRT?
+DLA has an internal SRAM called CBUF (short for Convolution Buffer). As of TensorRT 8.6.0, before TensorRT hands over a Convolution node mapped to DLA to the DLA Compiler, it performs a heuristic-based check if that node can store its data and weights in CBUF.
+
+### I am running into an issue on my DLA, what do I do?
+First, try to update to the latest JetPack / DRIVE release if you can and check if the issue still occurs. Please refer to the [NVIDIA Forums](https://forums.developer.nvidia.com/) to see if other community members have managed to solve the issue and share your problem. 
