@@ -2,9 +2,6 @@
 
 # Supported ONNX Operators on Orin DLA
 
-DLA operator functionality is exposed through the TensorRT builder, which internally links to DLA SW libraries (see [DLA Workflow](https://developer.nvidia.com/deep-learning-accelerator)).
-
-Please refer to [Supported ONNX Operators](https://github.com/onnx/onnx-tensorrt/blob/main/docs/operators.md) for ONNX operators supported by TensorRT on GPU. See below table for a similar support matrix on Orin DLA.
 DLA operator functionality is exposed through the TensorRT builder, which internally links to DLA SW libraries (see [DLA Workflow](https://developer.nvidia.com/deep-learning-accelerator)). While some operators may already be available in DLA SW, TensorRT may not expose them yet.
 See below for the support matrix of ONNX operators on Orin DLA. If you are interested in a specific DLA operator that is not supported through TensorRT yet, feel free to raise a [GitHub Issue](https://github.com/NVIDIA/Deep-Learning-Accelerator-SW/issues) and/or inform your NVIDIA representative (in particular for NVIDIA DRIVE customers).
 
@@ -12,7 +9,7 @@ See [General Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/develop
 
 TensorRT 8.5 supports operators up to Opset 17. Latest information of ONNX operators can be found [here](https://github.com/onnx/onnx/blob/master/docs/Operators.md).
 
-Note that the scripts (to be run on an x86 host) in `op_reconstruction/` are intended as a recipe for how ops currently not supported on DLA can be decomposed into supported ops. Depending on your setup, you may choose to perform such op reconstructions in the ONNX domain post-training (as done here) or during the training process (for example in TensorFlow or PyTorch).
+Note that the scripts in `op_reconstruction/` are intended as a recipe for how ops currently not supported on DLA can be decomposed into supported ops. Depending on your setup, you may choose to perform such op reconstructions in the ONNX domain post-training (as done here) or during the training process (for example in TensorFlow or PyTorch).
 
 Below Operator Support Matrix requires the following minimum system config (the OS by default gets shipped with the DLA SW and TensorRT versions to its right):
 
