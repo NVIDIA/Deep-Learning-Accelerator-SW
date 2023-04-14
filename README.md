@@ -23,7 +23,6 @@ Here the distribution of DL TOPs between GPU and DLA on a Jetson AGX Orin 64GB, 
 Note: 
 - The DLA TOPs of the 30W & 50W power modes on Jetson AGX Orin 64GB are comparable to the maximum clocks on DRIVE Orin platforms for Automotive
 - The maximum DLA TOPs on Jetson Orin NX 16GB are comparable to the 15W power mode on Jetson AGX Orin 64GB
-=======
 
 ## DLA Reference Models
 
