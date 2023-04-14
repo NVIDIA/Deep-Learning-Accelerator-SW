@@ -23,6 +23,7 @@ Here the distribution of DL TOPs between GPU and DLA on a Jetson AGX Orin 64GB, 
 Note: 
 - The DLA TOPs of the 30W & 50W power modes on Jetson AGX Orin 64GB are comparable to the maximum clocks on DRIVE Orin platforms for Automotive
 - The maximum DLA TOPs on Jetson Orin NX 16GB are comparable to the 15W power mode on Jetson AGX Orin 64GB
+=======
 
 ## DLA Reference Models
 
@@ -120,6 +121,11 @@ Key takeaways:
 - DLA is about 3x to 5x more power efficient than GPU for these benchmarks
 - Enabling Structured Sparsity generally improves DLA's power efficiency
 - At the lowest power mode of 15W, DLA's power efficiency is the highest (where 74% total Orin peak DL INT8 performance comes from the DLAs)
+
+## ONNX operators supported on DLA
+
+See [operators/README.md](operators/README.md) for details on ONNX operators already supported on DLA and planned to be supported in future releases.
+
 
 ## ONNX operators supported on DLA
 
