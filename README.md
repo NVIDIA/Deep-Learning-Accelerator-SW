@@ -125,12 +125,6 @@ Key takeaways:
 
 See [operators/README.md](operators/README.md) for details on ONNX operators already supported on DLA and planned to be supported in future releases.
 
-
-## ONNX operators supported on DLA
-
-See [operators/README.md](operators/README.md) for details on ONNX operators already supported on DLA and planned to be supported in future releases.
-
-
 ## Setup
 Install the Python dependencies with (only supported on x86 hosts):
 ```bash
