@@ -62,7 +62,6 @@ Below case study presents that training models for Structured Sparsity is expect
 ## Orin DLA Performance
 
 ### DLA Dense performance
-RetinaNet ResNet-34
 2x DLA images per second on a Jetson AGX Orin 64GB in dense operation measured with JetPack 5.1.1, depending on the [power mode](https://docs.nvidia.com/jetson/archives/r35.1/DeveloperGuide/text/SD/PlatformPowerAndPerformance/JetsonOrinNxSeriesAndJetsonAgxOrinSeries.html#supported-modes-and-power-efficiency):
 
 | Network                              | Power mode: MAXN | Power mode: 50W | Power mode: 30W | Power mode: 15W |
