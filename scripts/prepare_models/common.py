@@ -1,5 +1,5 @@
 #
-# SPDX-FileCopyrightText: Copyright (c) 2022 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-FileCopyrightText: Copyright (c) 2022 - 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: LicenseRef-NvidiaProprietary
 #
 # NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
@@ -48,13 +48,15 @@ def fuse_into_conv(graph, fusion_func, node_pattern):
         qualifies = qualifies and node.outputs[0] not in graph.outputs
         qualifies = qualifies and len(node.outputs[0].outputs) == 1
         next_node = node.outputs[0].outputs[0] if qualifies else None
-        if next_node is not None and (node.op, next_node.op) == node_pattern:
+        next_node_var_inputs = [inp for inp in next_node.inputs if not isinstance(inp, gs.Constant)] if next_node is not None else list()
+        qualifies = qualifies and len(next_node_var_inputs) == 1 and next_node_var_inputs[0] == node.outputs[0]
+        if qualifies and (node.op, next_node.op) == node_pattern:
             fusion_func(node, next_node)
             graph = graph.cleanup()
 
 
-def fuse_convs_horizontally(graph, fuse_conv_outputs):
-    def fuse_convs(convs):
+def fuse_convs_horizontally(graph, fuse_conv_outputs, new_names=None):
+    def fuse_convs(convs, new_name=None):
         assert len(convs) > 0
         first_conv = convs[0]
         first_weights = first_conv.inputs[1]
@@ -70,15 +72,20 @@ def fuse_convs_horizontally(graph, fuse_conv_outputs):
             first_weights.values = np.concatenate([first_weights.values, conv_weights.values],
                                                   axis=0)
             first_bias.values = np.concatenate([first_bias.values, bias.values], axis=0)
-            first_conv.name += f'+{conv.name}'
-            first_conv.outputs[0].name += f'+{conv.outputs[0].name}'
+            if new_name is None:
+                first_conv.name += f'+{conv.name}'
+                first_conv.outputs[0].name += f'+{conv.outputs[0].name}'
+            else:
+                first_conv.name = new_name
+                first_conv.outputs[0].name = new_name
             graph.outputs.remove(conv.outputs[0])
             conv.inputs.clear()
             conv.outputs.clear()
         graph.cleanup()
-
+    if new_names is not None:
+        assert len(new_names) == len(fuse_conv_outputs)
     tensors = graph.tensors()
-    for fused_outputs in fuse_conv_outputs:
+    for idx, fused_outputs in enumerate(fuse_conv_outputs):
         fused_convs = list()
         for output in fused_outputs:
             tensor = tensors[output]
@@ -86,13 +93,14 @@ def fuse_convs_horizontally(graph, fuse_conv_outputs):
             conv = tensor.inputs[0]
             assert conv.inputs[0] not in graph.outputs
             fused_convs.append(conv)
-        fuse_convs(fused_convs)
+        new_name = new_names[idx] if new_names is not None else None
+        fuse_convs(fused_convs, new_name)
 
 
 def extract_subgraph(graph, input_names, output_names, input_shape):
     tensors = graph.tensors()
     for tensor in tensors.values():
-        if tensor.shape is not None and not isinstance(tensor, gs.Constant):
+        if tensor.shape is not None and not isinstance(tensor, gs.Constant) and len(tensor.shape) > 0:
             tensor.shape[0] = input_shape[0]
     graph.inputs = [
         tensors[name].to_variable(dtype=np.float32, shape=input_shape) for name in input_names
@@ -103,3 +111,13 @@ def extract_subgraph(graph, input_names, output_names, input_shape):
     for node in graph.nodes:
         for out in node.outputs:
             out.shape = None
+
+def to_resize_with_scales(graph):
+    for node in graph.nodes:
+        if node.op == 'Resize' and len(node.inputs) > 3:
+            sizes = node.inputs[3].values.astype(np.float32)
+            input_shape = np.array(node.inputs[0].shape, dtype=np.float32)
+            input_shape[0] = 1
+            scales_vals = sizes / input_shape
+            scales = gs.Constant(name=f'{node.name}_scales', values=scales_vals)
+            node.inputs = node.inputs[:2] + [scales]
