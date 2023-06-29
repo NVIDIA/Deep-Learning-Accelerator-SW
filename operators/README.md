@@ -1,13 +1,13 @@
 <!--- SPDX-License-Identifier: Apache-2.0 -->
 
-# Supported ONNX Operators on Orin DLA
+# Supported ONNX Operators & Functions on Orin DLA
 
-DLA operator functionality is exposed through the TensorRT builder, which internally links to DLA SW libraries (see [DLA Workflow](https://developer.nvidia.com/deep-learning-accelerator)). While some operators may already be available in DLA SW, TensorRT may not expose them yet.
-See below for the support matrix of ONNX operators on Orin DLA. If you are interested in a specific DLA operator that is not supported through TensorRT yet, feel free to raise a [GitHub Issue](https://github.com/NVIDIA/Deep-Learning-Accelerator-SW/issues) and/or inform your NVIDIA representative (in particular for NVIDIA DRIVE customers).
+DLA operator functionality is exposed through the TensorRT builder, which internally links to DLA SW libraries (see [DLA Workflow](https://developer.nvidia.com/deep-learning-accelerator)). While some ONNX operator or functions may already be available in DLA SW, TensorRT may not expose them yet.
+See below for the support matrix of ONNX operators & functions on Orin DLA. If you are interested in a specific DLA operator that is not supported through TensorRT yet, feel free to raise a [GitHub Issue](https://github.com/NVIDIA/Deep-Learning-Accelerator-SW/issues) and/or inform your NVIDIA representative (in particular for NVIDIA DRIVE customers).
 
-See [General Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest) that apply to all operators. Many of those operators are supported on Xavier DLA as well, see [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest).
+See [General Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest) that apply to all operations below. Many of those ops are supported on Xavier DLA as well, see [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest).
 
-TensorRT 8.5 supports operators up to Opset 17. Latest information of ONNX operators can be found [here](https://github.com/onnx/onnx/blob/master/docs/Operators.md).
+TensorRT 8.6 supports operators up to Opset 17. Latest information of ONNX operators can be found [here](https://github.com/onnx/onnx/blob/master/docs/Operators.md).
 
 Note that the scripts in `op_reconstruction/` are intended as a recipe for how ops currently not supported on DLA can be decomposed into supported ops. Depending on your setup, you may choose to perform such op reconstructions in the ONNX domain post-training (as done here) or during the training process (for example in TensorFlow or PyTorch).
 
@@ -17,92 +17,118 @@ Below Operator Support Matrix requires the following minimum system config (the 
 | ----------------- | ---------------- | -------------- | ---------------- |
 | DRIVE Orin (Automotive)        | DRIVE OS 6.0.6.0 | DLA 3.12.0     | TensorRT 8.5.10  |
 | Jetson Orin (Embedded)      | JetPack 5.1.1    | DLA 3.12.1     | TensorRT 8.5.2   |
+| DRIVE Orin (Automotive)        | DRIVE OS 6.0.7.0 | DLA 3.13.0     | TensorRT 8.6.10  |
+| DRIVE Orin (Automotive)        | DRIVE OS 6.0.8.0 | DLA 3.14.0     | TensorRT 8.6.11  |
 
 ## Request for enhancements (RFE)
 
 If you are interested in a specific DLA operator to be enabled in TensorRT, feel free to raise a [GitHub Issue](https://github.com/NVIDIA/TensorRT/issues) and/or inform your NVIDIA representative (in particular for NVIDIA DRIVE customers).
 
-## Operator Support Matrix
+## ONNX Operator/Function Support Matrix
 
-| Operator                  | Orin DLA support through TensorRT | Orin DLA support through DLA SW   | Restrictions                                                                                                           |
+| Operator/Function         | Orin DLA support through TensorRT | Orin DLA support through DLA SW   | Restrictions                                                                                                           |
 |---------------------------|--------------------------|--------------------------|------------------------------------------------------------------------------------------------------------------------|
 | Abs                       | Native                   | Native | See **Unary layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Acos                      | [See RFE](#request-for-enhancements-rfe)                   | Planned in future release |
-| Acosh                     | [See RFE](#request-for-enhancements-rfe)          | Planned in future release  |
+| Acos                      | [See RFE](#request-for-enhancements-rfe)                   | Native (as of DLA 3.14.0) |
+| Acosh                     | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0)  |
 | Add                       | Native                   | Native | See **Scale layer** and **ElementWise Layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | And                       | Reconstruction          | Reconstruction | See [op_reconstruction/And.py](op_reconstruction/And.py)
-| Asin                      | [See RFE](#request-for-enhancements-rfe)          | Planned in future release  |
-| Asinh                     | [See RFE](#request-for-enhancements-rfe)          | Planned in future release  |
-| Atan                      | [See RFE](#request-for-enhancements-rfe)          | Planned in future release  |
-| Atanh                     | [See RFE](#request-for-enhancements-rfe)          | Planned in future release  |
+| Asin                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0)  |
+| Asinh                     | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0)  |
+| Atan                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0)  |
+| Atanh                     | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0)  |
 | AveragePool               | Native        | Native | See **Pooling layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)                                                                                                           |
 | BatchNormalization        | Native          | Native | See **Scale layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Celu                      | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| Ceil                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Celu                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Clip                      | Native          | Native |  See **Activation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/indexhtml#dla-lay-supp-rest)                                                                                      |
 | Concat                    | Native          | Native | See **Concatenation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Constant                  | Native          | Native | TensorRT performs constant folding into supported DLA ops.
+| Constant                  | Native          | Native | TensorRT performs constant folding into supported DLA ops. You may need to allow GPU fallback to trigger the folding but the final operator would only run on DLA.
 | ConstantOfShape           | Can be inferred at build time          | Can be inferred at build time  |
 | Conv                      | Native          | Native | See **Convolution and Fully Connected layers** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | ConvTranspose             | Native          | Native | See **Deconvolution layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Cos                       | Native          | Planned in future release|
-| Cosh                      | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| DepthToSpace              | Reconstruction          | Reconstruction | See [op_reconstruction/DepthToSpace.py](op_reconstruction/DepthToSpace.py)
-| Div                       | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| Elu                       | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| Cos                       | Native          | Native (as of DLA 3.14.0) |
+| Cosh                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| CumSum                       | Reconstruction          | Reconstruction | With `axis=1`, it can be expressed with a 1x1 Conv
+| DepthToSpace              | Reconstruction          | Native (as of DLA 3.14.0) | See [op_reconstruction/DepthToSpace.py](op_reconstruction/DepthToSpace.py)
+| Div                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Elu                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Equal                     | Native         | Native | See **Equal operation** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Erf                       | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| Exp                       | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| Erf                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Exp                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Expand                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Floor                       | [See RFE](#request-for-enhancements-rfe)        | Native (as of DLA 3.14.0) |
 | Gather                    | Reconstruction          | Reconstruction | See [op_reconstruction/Gather.py](op_reconstruction/Gather.py)
 | Gemm                      | Native          | Native | See **Convolution and Fully Connected layers** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | GlobalAveragePool         | [See RFE](#request-for-enhancements-rfe)          | Native |
+| GlobalLpPool             | [See RFE](#request-for-enhancements-rfe)          |  Native (as of DLA 3.14.0) |
 | GlobalMaxPool             | [See RFE](#request-for-enhancements-rfe)          | Native |
-| Greater                   | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| GreaterOrEqual            | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| Greater                   | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| GreaterOrEqual            | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| GroupNormalization            | [See RFE](#request-for-enhancements-rfe)      | Reconstruction (as of DLA 3.14.0) | Can be expressed with ReduceMean, Sub, Pow, Add, Sqrt, Div, Mul
 | GRU                       | Reconstruction          | Reconstruction | See [op_reconstruction/GRU.py](op_reconstruction/GRU.py)
-| HardSwish                 | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| HardSigmoid               | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| HardSigmoid               | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| HardSwish                 | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Identity                 | Reconstruction | Native (as of DLA 3.14.0) | Can be expressed with Transpose and `perm=(0, 1, 2, 3)` for example
+| InstanceNormalization            | [See RFE](#request-for-enhancements-rfe)      | Reconstruction (as of DLA 3.14.0) | Can be expressed with ReduceMean, Sub, Pow, Add, Sqrt, Div, Mul
+| LayerNormalization            | [See RFE](#request-for-enhancements-rfe)      | Reconstruction (as of DLA 3.14.0) | Can be expressed with ReduceMean, Sub, Pow, Add, Sqrt, Div, Mul
 | LeakyRelu                 | Native          | Native | See **Activation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Less                      | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| LessOrEqual               | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| Log                       | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| LogSoftmax                | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| Less                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| LessOrEqual               | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Log                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| LogSoftmax                       | [See RFE](#request-for-enhancements-rfe)          | Reconstruction (as of DLA 3.14.0) | Can be expressed with Log and Softmax
+| LpNormalization                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| LpPool                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | LRN                       | Native          | Native | See **LRN (Local Response Normalization) layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | MatMul                    | Native          | Native | The second input must be a constant, also see **Convolution and Fully Connected layers** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Max                       | Native          | Native| See **ElementWise layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | MaxPool                   | Native          | Native| See **Pooling layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Min                       | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| Mod                       | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| Mean                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Min                       | [See RFE](#request-for-enhancements-rfe)          | Native |
+| Mish                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Mod                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| MeanVarianceNormalization            | [See RFE](#request-for-enhancements-rfe)      | Reconstruction (as of DLA 3.14.0) | Can be expressed with ReduceMean, Sub, Pow, Add, Sqrt, Div, Mul
 | Mul                       | Native          | Native | See **Scale layer** and **ElementWise layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Neg                       | Reconstruction          | Reconstruction |  See [op_reconstruction/Neg.py](op_reconstruction/Neg.py)
 | Not                       | Reconstruction          | Reconstruction | See [op_reconstruction/Not.py](op_reconstruction/Not.py)
 | Or                        | Reconstruction          | Reconstruction | See [op_reconstruction/Or.py](op_reconstruction/Or.py)
-| Pow                       | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| Pad                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Pow                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | PRelu                     | Native          | Native | See **Parametric ReLU layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Reciprocal                | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| Reciprocal                | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | ReduceMax                 | [See RFE](#request-for-enhancements-rfe)          | Native|
 | ReduceMean                | [See RFE](#request-for-enhancements-rfe)          | Native|
 | ReduceMin                 | [See RFE](#request-for-enhancements-rfe)          | Native|
+| ReduceL1                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| ReduceL2                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| ReduceSum                | [See RFE](#request-for-enhancements-rfe)          |  Native (as of DLA 3.14.0) |
+| ReduceSumSquare                | [See RFE](#request-for-enhancements-rfe)          |  Native (as of DLA 3.14.0) |
 | Relu                      | Native          | Native | See **Activation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Reshape                   | Native          | Native | See **Shuffle layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Resize                    | Native         | Native | See **Resize layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)   |
+| Round                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | ScatterElements           | Reconstruction          | Reconstruction | See [op_reconstruction/ScatterElements.py](op_reconstruction/ScatterElements.py)
+| Selu                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Shape                     |Can be inferred at build time          | Can be inferred at build time  |
+| Shrink                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Sigmoid                   | Native          | Native | See **Activation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Sign                      | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| Sin                       | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| Sinh                      | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| Sign                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Sin                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Sinh                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Slice                     | Native         | Native | See **Slice layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)                                                                                                |
 | Softmax                   | Native         | Native | See **SoftMax layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Softplus                  | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| Softsign                  | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
-| SpaceToDepth              | Reconstruction          | Reconstruction | See [op_reconstruction/SpaceToDepth.py](op_reconstruction/SpaceToDepth.py)
-| Sqrt                      | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| Softplus                  | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Softsign                  | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| SpaceToDepth              | Reconstruction          | Native (as of DLA 3.14.0) | See [op_reconstruction/SpaceToDepth.py](op_reconstruction/SpaceToDepth.py)
+| Split                     | Native         | Native | Translated to Slice inside TensorRT's ONNX parser. See **Slice layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
+| Sqrt                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Sub                       | Native         | Native | See **ElementWise layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Sum                       | Native         | Native | See **ElementWise layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Tan                       | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| Tan                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Tanh                      | Native         | Native | See **Activation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| ThresholdedRelu           | [See RFE](#request-for-enhancements-rfe)          | Planned in future release |
+| ThresholdedRelu           | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Transpose                 | Native         | Native | See **Shuffle layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
+| Tile                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Upsample                  | Native         | Native | See **Resize layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Where                     | Reconstruction          | Reconstruction | See [op_reconstruction/Where.py](op_reconstruction/Where.py)
 | Xor                       | Reconstruction          | Reconstruction | See [op_reconstruction/Xor.py](op_reconstruction/Xor.py)
