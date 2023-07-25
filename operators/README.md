@@ -2,7 +2,7 @@
 
 # Supported ONNX Operators & Functions on Orin DLA
 
-DLA operator functionality is exposed through the TensorRT builder, which internally links to DLA SW libraries (see [DLA Workflow](https://developer.nvidia.com/deep-learning-accelerator)). While some ONNX operator or functions may already be available in DLA SW, TensorRT may not expose them yet.
+DLA operator functionality is exposed through the TensorRT builder, which internally links to DLA SW libraries (see [DLA Workflow](https://developer.nvidia.com/deep-learning-accelerator)). While some ONNX operators or functions may already be available in DLA SW, TensorRT may not expose them yet.
 See below for the support matrix of ONNX operators & functions on Orin DLA. If you are interested in a specific DLA operator that is not supported through TensorRT yet, feel free to raise a [GitHub Issue](https://github.com/NVIDIA/Deep-Learning-Accelerator-SW/issues) and/or inform your NVIDIA representative (in particular for NVIDIA DRIVE customers).
 
 See [General Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest) that apply to all operations below. Many of those ops are supported on Xavier DLA as well, see [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest).
