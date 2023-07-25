@@ -41,13 +41,13 @@ If you are interested in a specific DLA operator to be enabled in TensorRT, feel
 | BatchNormalization        | Native          | Native | See **Scale layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Ceil                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Celu                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
-| Clip                      | Native          | Native |  See **Activation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/indexhtml#dla-lay-supp-rest)                                                                                      |
+| Clip                      | Native          | Native |  See **Activation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)                                                                                      |
 | Concat                    | Native          | Native | See **Concatenation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Constant                  | Native          | [See RFE](#request-for-enhancements-rfe) | TensorRT performs constant folding into supported DLA ops. You may need to allow GPU fallback to trigger the folding but the final operator would only run on DLA.
 | ConstantOfShape           | Can be inferred at build time          | Can be inferred at build time  |
 | Conv                      | Native          | Native | See **Convolution and Fully Connected layers** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | ConvTranspose             | Native          | Native | See **Deconvolution layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Cos                       | Native          | Native (as of DLA 3.14.0) |
+| Cos                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Cosh                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | CumSum                       | Reconstruction          | Reconstruction | With `axis=1`, it can be expressed through a 1x1 Conv
 | DepthToSpace              | Reconstruction          | Native (as of DLA 3.14.0) | See [op_reconstruction/DepthToSpace.py](op_reconstruction/DepthToSpace.py)
