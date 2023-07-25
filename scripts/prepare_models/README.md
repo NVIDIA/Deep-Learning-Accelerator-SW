@@ -89,8 +89,8 @@ Source: https://github.com/mlcommons/inference/blob/2acca351fbdf7821a5d8fa1d9a97
 ### Download
 
 - Original locations: 
-    - Full model: https://zenodo.org/record/7824202/files/retinanet_rn34_1280x768_dummy.onnx
-    - Backbone without RetinaNet head: https://zenodo.org/record/7824202/files/backbone_rn34_1280x768_dummy.onnx
+    - Full model: https://zenodo.org/record/8144349/files/retinanet_rn34_1280x768_dummy.onnx
+    - Backbone without RetinaNet head: https://zenodo.org/record/8144349/files/backbone_rn34_1280x768_dummy.onnx
 - Source: See "Structured Sparsity Case Study: Object Detection Accuracy with RetinaNet ResNet-34" in `../../README.md`. Note that the parameters are random due to dataset licensing restrictions (hence the `_dummy` appendix).
 
 ### Prepare & Run
