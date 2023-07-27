@@ -129,5 +129,8 @@ ISAAC SDK has a reference application for proximity segmentation using stereo da
 ### What does "CBUF validation" mean if I try to run a Convolution on DLA through TensorRT?
 DLA has an internal SRAM called CBUF (short for Convolution Buffer). As of TensorRT 8.6.0, before TensorRT hands over a Convolution node mapped to DLA to the DLA Compiler, it performs a heuristic-based check if that node can store its data and weights in CBUF.
 
+### Are inputs in kDLA_HWC4 format supported if consumed by a Convolution whose compute precision differs from the inputs'?
+No, such configurations where FP16 `kDLA_HWC4` inputs are consumed by an INT8 Conv or vice versa are not yet supported. You will need to update the Conv layer's precision to the input's precision.
+
 ### I am running into an issue on my DLA, what do I do?
 First, try to update to the latest JetPack / DRIVE release if you can and check if the issue still occurs. Please refer to the [NVIDIA Forums](https://forums.developer.nvidia.com/) to see if other community members have managed to solve the issue and share your problem. 
