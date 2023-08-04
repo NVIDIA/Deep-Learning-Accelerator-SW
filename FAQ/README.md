@@ -19,6 +19,7 @@
 - [How does the inference latency on DLA compare to that of GPU?](#how-does-the-inference-latency-on-dla-compare-to-that-of-gpu)
 - [Is it possible to run multiple networks concurrently on two DLA cores?](#is-it-possible-to-run-multiple-networks-concurrently-on-two-dla-cores)
 - [Can multiple models run on a single DLA?](#can-multiple-models-run-on-a-single-dla)
+- [Can I expect the latency of my network to be deterministic on DLA?](#Can-I-expect-the-latency-of-my-network-to-be-deterministic-on-DLA)
 - [What tools and utilities are available for profiling and debugging DLA workloads?](#what-tools-and-utilities-are-available-for-profiling-and-debugging-dla-workloads)
 - [Will DLA help in reducing power consumption?](#will-dla-help-in-reducing-power-consumption)
 - [Where can we learn more about how DLA is leveraged in ISAAC reference applications?](#where-can-we-learn-more-about-how-dla-is-leveraged-in-isaac-reference-applications)
@@ -109,6 +110,9 @@ One way to quickly get started is by running two concurrent trtexec processes, w
 
 ### Can multiple models run on a single DLA?
 Yes, you can run multiple models on a single DLA core in sequential order.
+
+### Can I expect the latency of my network to be deterministic on DLA?
+Yes, DLA inference is known to have a minimum variance from inference to inference, assuming your clocks are locked and for example not bottlenecked by DRAM bandwidth.
 
 ### What tools and utilities are available for profiling and debugging DLA workloads?
 The easiest way to measure DLA performance is using [trtexec](https://github.com/NVIDIA/TensorRT/tree/main/samples/trtexec). For example, you can run a ResNet-50 network on DLA using trtexec in INT8 mode with this command:
