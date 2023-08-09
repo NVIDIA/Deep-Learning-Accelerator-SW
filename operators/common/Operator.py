@@ -1,6 +1,6 @@
 #
 # SPDX-FileCopyrightText: Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-# SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+# SPDX-License-Identifier: MIT
 #
 # NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
 # property and proprietary rights in and to this material, related
@@ -123,7 +123,7 @@ class Operator():
         DTYPE_STRINGS = {np.float16: 'fp16', np.int8: 'int8'}
         def preprocess(data, dtype):
             data = data.copy()
-            if dtype == np.int8 and data.dtype != np.bool:
+            if dtype == np.int8 and data.dtype != bool:
                 dyn_range = max(np.abs(data.max()), np.abs(data.min()))
                 scaling_factor = dyn_range / 127.0
                 data /= scaling_factor
