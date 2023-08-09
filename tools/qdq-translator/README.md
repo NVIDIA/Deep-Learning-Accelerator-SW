@@ -164,6 +164,3 @@ Just like [ResNet-50v1](./e2e_workflow/), all models trained with [NVIDIA Tensor
 ## Known issues
 * There is no guarantee this script will work for all ONNX models with Q/DQ nodes. Community contributions are highly appreciated!
 * `onnxoptimizer` is required to be exactly at version `0.3.2`. If newer versions are used, building a TensorRT engine may fail for models like EfficientNet-B0 or EfficientNet-B3 trained with [NVIDIA TensorFlow Quantization](https://github.com/NVIDIA/TensorRT/tree/main/tools/tensorflow-quantization).
-
-## License
-Copyright (c) 2022 - 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
