@@ -25,6 +25,36 @@ Source: https://github.com/mlcommons/inference/blob/2acca351fbdf7821a5d8fa1d9a97
 ./trtexec --useDLACore=0 --int8 --memPoolSize=dlaSRAM:1 --inputIOFormats=int8:dla_hwc4 --outputIOFormats=int8:chw32 --onnx=resnet50_v1_prepared.onnx --shapes=input_tensor:0:2x3x224x224
 ```
 
+## ResNet-50 with QDQ Translator
+
+### Prepare & Run
+
+1. Follow steps in [../../tools/qdq-translator/e2e_workflow](../../tools/qdq-translator/e2e_workflow/README.md) – make sure to include the `--add_unary_ew_scales_for_dla` arg and that your DLA SW version is at least 3.13.0 (as detailed in [QDQ Translator](../../tools/qdq-translator/README.md)).
+2. Run `python3 scripts/prepare_models/resnet50_noqdq.py` from [repo top dir](../..)
+3. Copy the ``../../tools/qdq-translator/e2e_workflow/translated]`` dir (now containing `resnet_50v1_noqdq_prepared.onnx`) to your Orin target
+4. Run the following command on your Orin target:
+```bash
+trtexec --onnx=translated/resnet_50v1_noqdq_prepared.onnx \
+        --calib=translated/resnet_50v1_precision_config_calib.cache \
+        --useDLACore=0 \
+        --int8 \
+        --fp16 \
+        --precisionConstraints=prefer \
+        --memPoolSize=dlaSRAM:1 \
+        --shapes=StatefulPartitionedCall/resnet50/quant_conv1_bn/FusedBatchNormV3:0:2x3x224x224 \
+        --layerPrecisions=$(cat translated/resnet_50v1_precision_config_layer_arg.txt) \
+        --inputIOFormats=int8:hwc4 --outputIOFormats=fp16:chw16
+```
+5. Optional - you can compare the pure int8 latency without the calibration cache (and using dummy scales instead) by running the following – the latency is expected to be similar:
+```bash
+trtexec --onnx=translated/resnet_50v1_noqdq_prepared.onnx \
+        --useDLACore=0 \
+        --int8 \
+        --memPoolSize=dlaSRAM:1 \
+        --shapes=StatefulPartitionedCall/resnet50/quant_conv1_bn/FusedBatchNormV3:0:2x3x224x224 \
+        --inputIOFormats=int8:hwc4 --outputIOFormats=int8:chw32
+```
+
 ## SSD-ResNet-34
 
 ### Download
