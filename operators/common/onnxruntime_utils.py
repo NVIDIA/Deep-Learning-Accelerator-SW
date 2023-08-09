@@ -1,6 +1,6 @@
 #
 # SPDX-FileCopyrightText: Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-# SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+# SPDX-License-Identifier: MIT
 #
 # NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
 # property and proprietary rights in and to this material, related
@@ -13,7 +13,7 @@
 import onnxruntime as ort
 import numpy as np
 
-ONNXRUNTIME_DT_TO_NUMPY_DT = {'tensor(bool)': np.bool, 'tensor(float)': np.float32}
+ONNXRUNTIME_DT_TO_NUMPY_DT = {'tensor(bool)': bool, 'tensor(float)': np.float32}
 
 
 
