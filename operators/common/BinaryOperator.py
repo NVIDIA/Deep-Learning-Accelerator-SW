@@ -1,6 +1,6 @@
 #
 # SPDX-FileCopyrightText: Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-# SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+# SPDX-License-Identifier: MIT
 #
 # NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
 # property and proprietary rights in and to this material, related
@@ -19,7 +19,7 @@ from common.Operator import Operator
 
 class BinaryOperator(Operator):
     def generate(self, input_shapes, **kwargs):
-        kwargs['dtype'] = np.bool
+        kwargs['dtype'] = bool
         return super().generate(input_shapes, **kwargs)
 
     def test(self, input_data):

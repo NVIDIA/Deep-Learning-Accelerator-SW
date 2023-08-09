@@ -1,6 +1,6 @@
 #
 # SPDX-FileCopyrightText: Copyright (c) 2022 - 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-# SPDX-License-Identifier: LicenseRef-NvidiaProprietary
+# SPDX-License-Identifier: MIT
 #
 # NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
 # property and proprietary rights in and to this material, related
@@ -121,3 +121,33 @@ def to_resize_with_scales(graph):
             scales_vals = sizes / input_shape
             scales = gs.Constant(name=f'{node.name}_scales', values=scales_vals)
             node.inputs = node.inputs[:2] + [scales]
+
+def simplify_classification_head(graph, mean_name, squeeze_name, matmul_name, add_name, softmax_name=None):
+    node_dict = dict()
+    for node in graph.nodes:
+        node_dict[node.name] = node
+
+    # ReduceMean -> AveragePool:
+    node_dict[mean_name].op = 'AveragePool'
+    node_dict[mean_name].attrs = {'kernel_shape': [7, 7]}
+
+    # {Squeeze, MatMul, Add} -> 1x1 Conv:
+    node_dict[squeeze_name].inputs.clear()
+    node_dict[squeeze_name].outputs.clear()
+    node_dict[matmul_name].op = 'Conv'
+    matmul_weights = node_dict[matmul_name].inputs[1]
+    matmul_weights.values = matmul_weights.values.T
+    matmul_weights.values = np.expand_dims(matmul_weights.values, [-2, -1])
+    bias_weights = node_dict[add_name].inputs[1]
+    node_dict[matmul_name].inputs = [
+        node_dict[mean_name].outputs[0], matmul_weights, bias_weights
+    ]
+    node_dict[matmul_name].outputs = [
+        node_dict[add_name].outputs[0]
+    ]
+    node_dict[matmul_name].attrs = {'kernel_shape': [1, 1]}
+    node_dict[add_name].inputs.clear()
+    node_dict[add_name].outputs.clear()
+    if softmax_name is not None:
+        node_dict[softmax_name].attrs['axis'] = 1
+    graph.cleanup()

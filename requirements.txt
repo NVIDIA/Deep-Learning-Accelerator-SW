@@ -1,4 +1,6 @@
 numpy>="1.19.5"
 onnx>="1.12.0"
+onnxoptimizer=="0.3.2" # Newer versions may cause qdq-translator failures when building TensorRT engines for models like EfficientNet-B0 or EfficientNet-B3 trained with NVIDIA TensorFlow Quantization
+nvidia-pyindex>="1.0.9"
 --extra-index-url https://pypi.ngc.nvidia.com
 onnx_graphsurgeon>="0.3.11"
