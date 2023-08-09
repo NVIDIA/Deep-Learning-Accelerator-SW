@@ -2,12 +2,12 @@
 
 Translate ONNX graph from QAT models - containing Quantize and DeQuantize nodes (Q/DQ) - to tensor scales and an ONNX model without Q/DQ nodes (stripped).
 
-**IMPORTANT:** For usage with DLA, you need at least DLA SW 3.13.0. The following steps are not supported on Jetson yet and only apply to Orin DLA. Below the minimum system requirements for DLA.
+**IMPORTANT:** For usage with DLA, you need at least DLA SW 3.13.0. Below the minimum system requirements for DLA:
 
 | Hardware platform | OS | DLA SW version |
 | -------- | -------- | -------- |
 | DRIVE Orin (Automotive) | DRIVE OS 6.0.7.0 | DLA 3.13.0 |
-| Jetson Orin (Embedded) | JetPack 6.0 (unreleased) | DLA 3.14.1 |
+| Jetson Orin (Embedded) | JetPack 6.0 (future) | DLA 3.14.1 |
 
 Process for a ResNet-50 example model in a nutshell:
 ```sh
