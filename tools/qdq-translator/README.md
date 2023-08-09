@@ -1,6 +1,6 @@
 # QDQ Translator
 
-Translate ONNX graph from QAT models - containing Quantize and DeQuantize nodes (Q/DQ) - to tensor scales and an ONNX model without Q/DQ nodes (stripped).
+Translate ONNX models from QAT graphs – the result of Quantization-Aware Training, containing Quantize and DeQuantize (Q/DQ) nodes – to ONNX graphs without Q/DQ nodes, along with extracted tensor scales.
 
 **IMPORTANT:** For usage with DLA, you need at least DLA SW 3.13.0. Below the minimum system requirements for DLA:
 
