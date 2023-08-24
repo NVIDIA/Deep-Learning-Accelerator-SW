@@ -28,5 +28,4 @@ This sample is used to provide layerwise statistics to the application in the [c
 This sample is used to provide layerwise statistics to the application in [cuDLA standalone mode](https://docs.nvidia.com/cuda/cuda-for-tegra-appnote/index.html#memory-model) where DLA is programmed without using CUDA.
 
 # YOLOv5 cuDLA sample
-The repo [YOLOv5 cuDLA sample
-](https://github.com/NVIDIA-AI-IOT/cuDLA-samples) demonstrates how to train YOLOv5s with [NVIDIA's pytorch-quantization toolkit](https://github.com/NVIDIA/TensorRT/tree/main/tools/pytorch-quantization) and deploy the resulting INT8 model on DLA using cuDLA. Also refer to [QDQ Translator](../../tools/qdq-translator/).
+The repo [YOLOv5 cuDLA sample](https://github.com/NVIDIA-AI-IOT/cuDLA-samples) demonstrates how to train YOLOv5s with [NVIDIA's pytorch-quantization toolkit](https://github.com/NVIDIA/TensorRT/tree/main/tools/pytorch-quantization) and deploy the resulting INT8 model on DLA using cuDLA. Also refer to [QDQ Translator](../../tools/qdq-translator/).
