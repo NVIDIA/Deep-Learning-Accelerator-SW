@@ -139,7 +139,7 @@ This will allow to run all nodes above in INT8 on DLA through TensorRT.
 
 ### Workflow: End-to-End Examples
 
-* See [e2e_workflow/tensorflow_workflow](e2e_workflow) for a sample end-to-end workflow using [NVIDIA TensorFlow Quantization](https://github.com/NVIDIA/TensorRT/tree/main/tools/tensorflow-quantization).
+* See [e2e_workflow/tensorflow_workflow](e2e_workflow/tensorflow_workflow/) for a sample end-to-end workflow using [NVIDIA TensorFlow Quantization](https://github.com/NVIDIA/TensorRT/tree/main/tools/tensorflow-quantization).
 * The repo [YOLOv5 cuDLA sample
 ](https://github.com/NVIDIA-AI-IOT/cuDLA-samples) shows how to train YOLOv5s with [NVIDIA's pytorch-quantization toolkit](https://github.com/NVIDIA/TensorRT/tree/main/tools/pytorch-quantization) and deploy the resulting INT8 model on with cuDLA.
 
@@ -154,7 +154,7 @@ This will allow to run all nodes above in INT8 on DLA through TensorRT.
 ## ImageNet Top-1 accuracies with TensorRT 8.6-EA (on NVIDIA GeForce RTX™ 3090)
 | Model                                  | Original Model<br>*(Explicit Quantization, with Q/DQ nodes)* | Model converted by QDQ Translator<br>*(Implicit Quantization with calibration table, without Q/DQ nodes)* |
 |----------------------------------------|---------------------------------|----------------------------------|
-| [ResNet-50v1](./e2e_workflow/) | 75.18%                           | 75.22%                            |
+| [ResNet-50v1](./e2e_workflow/tensorflow_workflow/) | 75.18%                           | 75.22%                            |
 | ResNet-50v2                            | 75.77%                           | 73.87%                            |
 | MobileNet-v1                           | 70.45%                           | 70.41%                            |
 | MobileNet-v2                           | 71.62%                           | 71.73%                            |
@@ -162,7 +162,7 @@ This will allow to run all nodes above in INT8 on DLA through TensorRT.
 | EfficientNet-B3                        | 79.02%                           | 77.96%                            |
 | Inception-V3                           | 78.06%                           | 78.20% (with `--infer_concat_scales`)                            |
 
-Just like [ResNet-50v1](./e2e_workflow/), all models trained with [NVIDIA TensorFlow Quantization](https://github.com/NVIDIA/TensorRT/tree/main/tools/tensorflow-quantization), see [tensorflow-quantization/examples](https://github.com/NVIDIA/TensorRT/tree/main/tools/tensorflow-quantization/examples). Evaluated on x86 training host. Results on Orin's DLA and GPU expected to be similar.
+Just like [ResNet-50v1](./e2e_workflow/tensorflow_workflow/), all models trained with [NVIDIA TensorFlow Quantization](https://github.com/NVIDIA/TensorRT/tree/main/tools/tensorflow-quantization), see [tensorflow-quantization/examples](https://github.com/NVIDIA/TensorRT/tree/main/tools/tensorflow-quantization/examples). Evaluated on x86 training host. Results on Orin's DLA and GPU expected to be similar.
 
 ## Known issues
 * There is no guarantee this script will work for all ONNX models with Q/DQ nodes. Community contributions are highly appreciated!

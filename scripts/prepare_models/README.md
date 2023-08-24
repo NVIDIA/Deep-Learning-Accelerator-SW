@@ -29,9 +29,9 @@ Source: https://github.com/mlcommons/inference/blob/2acca351fbdf7821a5d8fa1d9a97
 
 ### Prepare & Run
 
-1. Follow steps in [../../tools/qdq-translator/e2e_workflow](../../tools/qdq-translator/e2e_workflow/README.md) – make sure to include the `--add_unary_ew_scales_for_dla` arg and that your DLA SW version is at least 3.13.0 (as detailed in [QDQ Translator](../../tools/qdq-translator/README.md)).
+1. Follow steps in [../../tools/qdq-translator/e2e_workflow/tensorflow_workflow/](../../tools/qdq-translator/e2e_workflow/tensorflow_workflow/README.md) – make sure to include the `--add_unary_ew_scales_for_dla` arg and that your DLA SW version is at least 3.13.0 (as detailed in [QDQ Translator](../../tools/qdq-translator/README.md)).
 2. Run `python3 scripts/prepare_models/resnet50_noqdq.py` from [repo top dir](../..)
-3. Copy the ``../../tools/qdq-translator/e2e_workflow/translated]`` dir (now containing `resnet_50v1_noqdq_prepared.onnx`) to your Orin target
+3. Copy the resulting ``translated/`` dir (now containing `resnet_50v1_noqdq_prepared.onnx`) to your Orin target
 4. Run the following command on your Orin target:
 ```bash
 trtexec --onnx=translated/resnet_50v1_noqdq_prepared.onnx \
