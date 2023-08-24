@@ -137,8 +137,11 @@ If we now add `--add_unary_ew_scales_for_dla` to the the `qdq_translator.py` com
 This will allow to run all nodes above in INT8 on DLA through TensorRT.
 
 
-### Workflow: End-to-End Example
-See [e2e_workflow](e2e_workflow) for a sample end-to-end workflow using [NVIDIA TensorFlow Quantization](https://github.com/NVIDIA/TensorRT/tree/main/tools/tensorflow-quantization).
+### Workflow: End-to-End Examples
+
+* See [e2e_workflow/tensorflow_workflow](e2e_workflow) for a sample end-to-end workflow using [NVIDIA TensorFlow Quantization](https://github.com/NVIDIA/TensorRT/tree/main/tools/tensorflow-quantization).
+* The repo [YOLOv5 cuDLA sample
+](https://github.com/NVIDIA-AI-IOT/cuDLA-samples) shows how to train YOLOv5s with [NVIDIA's pytorch-quantization toolkit](https://github.com/NVIDIA/TensorRT/tree/main/tools/pytorch-quantization) and deploy the resulting INT8 model on with cuDLA.
 
 ## Disclaimers
 * `opt_passes` and `ops_to_infer_adjacent_scales` in [qdq_translator.py](qdq_translator.py) may need to be expanded depending on the model.
