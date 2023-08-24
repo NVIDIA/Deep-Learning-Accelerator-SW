@@ -10,7 +10,7 @@
 # its affiliates is strictly prohibited.
 #
 
-ROOT_DIR=$(realpath ../models)
+ROOT_DIR=$(realpath ../../models)
 ROOT_DIR_SCRIPTS=$(realpath ./)
 MODEL_NAME="resnet_50v1"
 DATA_LOADER_NAME="resnet_v1"
