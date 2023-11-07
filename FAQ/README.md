@@ -46,7 +46,7 @@ Re-expressing operations not currently supported on DLA in terms of [supported o
 There can be overhead due to a couple of reasons:
 * Reformatting of the tensors between GPU and DLA memory formats. The kCHW16 (FP16), and kCHW32 (INT8) formats are common on DLA & GPU; however, the default formats are not the same. So ensure that you use commonly supported tensor formats to avoid the reformatting overhead. See [here](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#restrictions-with-dla) for more details.
 * Overhead due to small workloads. Ensure you have a network where subgraphs (a contiguous portion of the network graph) maps to DLA, rather than individual layers going back and forth between GPU and DLA.
-
+* Other than the minimal CPU overhead per DLA/GPU task submission, there is no significant CPU overhead expected for mixed GPU & DLA inference through TensorRT.
 
 ### Why is the latency higher when running workloads on two DLA cores and GPU?
 There can be several reasons for this, let’s focus on the three most common ones: 
