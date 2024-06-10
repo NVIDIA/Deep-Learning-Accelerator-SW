@@ -19,6 +19,11 @@ Below Operator Support Matrix requires the following minimum system config (the 
 | Jetson Orin (Embedded)      | JetPack 5.1.1    | DLA 3.12.1     | TensorRT 8.5.2   |
 | DRIVE Orin (Automotive)        | DRIVE OS 6.0.7.0 | DLA 3.13.0     | TensorRT 8.6.10  |
 | DRIVE Orin (Automotive)        | DRIVE OS 6.0.8.0 | DLA 3.14.0     | TensorRT 8.6.11  |
+| Jetson Orin (Embedded)      | JetPack 6    | DLA 3.14.1     | TensorRT 8.6.2   |
+| DRIVE Orin (Automotive)        | DRIVE OS 6.0.8.1 | DLA 3.14.1     | TensorRT 8.6.11  |
+| DRIVE Orin (Automotive)        | DRIVE OS 6.0.9.0 | DLA 3.14.2     | TensorRT 8.6.12  |
+| DRIVE Orin (Automotive)        | DRIVE OS 6.0.9.1 | DLA 3.14.3     | TensorRT 8.6.12  |
+
 
 ## Request for enhancements (RFE)
 
@@ -36,7 +41,7 @@ If you are interested in a specific DLA operator to be enabled in TensorRT, feel
 | Asin                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0)  |
 | Asinh                     | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0)  |
 | Atan                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0)  |
-| Atanh                     | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0)  |
+| Atanh                     | Native (as of TensorRT 8.6.12)          | Native (as of DLA 3.14.0)  | See **Unary layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | AveragePool               | Native        | Native | See **Pooling layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)                                                                                                           |
 | BatchNormalization        | Native          | Native | See **Scale layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Ceil                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
@@ -47,14 +52,14 @@ If you are interested in a specific DLA operator to be enabled in TensorRT, feel
 | ConstantOfShape           | Can be inferred at build time          | Can be inferred at build time  |
 | Conv                      | Native          | Native | See **Convolution and Fully Connected layers** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | ConvTranspose             | Native          | Native | See **Deconvolution layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Cos                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Cos                       | Native (as of TensorRT 8.6.12)          | Native (as of DLA 3.14.0)  | See **Unary layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Cosh                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | CumSum                       | Reconstruction          | Reconstruction | With `axis=1`, it can be expressed through a 1x1 Conv
 | DepthToSpace              | Reconstruction          | Native (as of DLA 3.14.0) | See [op_reconstruction/DepthToSpace.py](op_reconstruction/DepthToSpace.py)
 | DequantizeLinear          | Reconstruction          | Reconstruction | Can be collapsed to INT8 scaling factor, switching from explicit to implicit quantization
-| Div                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Div                       | Native (as of TensorRT 8.6.12) | Native (as of DLA 3.14.0) | See **ElementWise layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Elu                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
-| Equal                     | Native         | Native | See **Equal operation** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
+| Equal                     | Native         | Native | See **Comparison operations** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Erf                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Exp                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Expand                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
@@ -66,18 +71,18 @@ If you are interested in a specific DLA operator to be enabled in TensorRT, feel
 | Gemm                      | Native          | [See RFE](#request-for-enhancements-rfe) | The second input must be a constant, also see **Convolution and Fully Connected layers** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest). TensorRT can translate this to a 1x1 Conv internally.
 | GlobalAveragePool         | [See RFE](#request-for-enhancements-rfe)          | Native |
 | GlobalLpPool             | [See RFE](#request-for-enhancements-rfe)          |  Native (as of DLA 3.14.0) |
-| GlobalMaxPool             | [See RFE](#request-for-enhancements-rfe)          | Native |
-| Greater                   | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| GlobalMaxPool             | Native (as of TensorRT 8.6.12)          | Native | See **Reduce layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest). Older releases: Can be reconstructied by decomposing into several MaxPool nodes.
+| Greater                   | Native (as of TensorRT 8.6.12)         | Native (as of DLA 3.14.0) | See **Comparison operations** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | GreaterOrEqual            | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | GroupNormalization            | [See RFE](#request-for-enhancements-rfe)      | Reconstruction (as of DLA 3.14.0) | Can be expressed with ReduceMean, Sub, Pow, Add, Sqrt, Div, Mul
 | GRU                       | Reconstruction          | Reconstruction | See [op_reconstruction/GRU.py](op_reconstruction/GRU.py)
 | HardSigmoid               | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | HardSwish                 | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
-| Identity                 | Reconstruction | Native (as of DLA 3.14.0) | Can be expressed with identity BatchNormalization (TensorRT Scale layer) for example
+| Identity                 | Reconstruction | Native (as of DLA 3.14.0) | Can be expressed with identity BatchNormalization (TensorRT Scale layer) or identity Slice for example
 | InstanceNormalization            | [See RFE](#request-for-enhancements-rfe)      | Reconstruction (as of DLA 3.14.0) | Can be expressed with ReduceMean, Sub, Pow, Add, Sqrt, Div, Mul
 | LayerNormalization            | [See RFE](#request-for-enhancements-rfe)      | Reconstruction (as of DLA 3.14.0) | Can be expressed with ReduceMean, Sub, Pow, Add, Sqrt, Div, Mul
 | LeakyRelu                 | Native          | Native | See **Activation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
-| Less                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Less                      | Native (as of TensorRT 8.6.12)          | Native (as of DLA 3.14.0) | See **Comparison operations** in [Layer Support and Restrictions]
 | LessOrEqual               | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Log                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | LogSoftmax                       | [See RFE](#request-for-enhancements-rfe)          | Reconstruction (as of DLA 3.14.0) | Can be expressed with Log and Softmax
@@ -98,11 +103,11 @@ If you are interested in a specific DLA operator to be enabled in TensorRT, feel
 | Not                       | Reconstruction          | Reconstruction | See [op_reconstruction/Not.py](op_reconstruction/Not.py)
 | Or                        | Reconstruction          | Reconstruction | See [op_reconstruction/Or.py](op_reconstruction/Or.py)
 | Pad                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
-| Pow                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Div                       | Native (as of TensorRT 8.6.12) | Native (as of DLA 3.14.0) | See **ElementWise layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | PRelu                     | Native          | Native | See **Parametric ReLU layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | QuantizeLinear          | Reconstruction          | Reconstruction | Can be collapsed to INT8 scaling factor, switching from explicit to implicit quantization	
 | Reciprocal                | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
-| ReduceMax                 | Reconstruction          | Native| Can be reconstructied by decomposing into several MaxPool nodes
+| GlobalMaxPool             | Native (as of TensorRT 8.6.12)          | Native | See **Reduce layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest). Older releases: Can be reconstructied by decomposing into several MaxPool nodes.
 | ReduceMean                | [See RFE](#request-for-enhancements-rfe)          | Native| Can be reconstructied by decomposing into several AveragePool or Conv nodes
 | ReduceMin                 | [See RFE](#request-for-enhancements-rfe)          | Native|
 | ReduceLogSum                       | [See RFE](#request-for-enhancements-rfe)          | Reconstruction (as of DLA 3.14.0) | Can be expressed with Log, ReduceSum and Exp
@@ -123,7 +128,7 @@ If you are interested in a specific DLA operator to be enabled in TensorRT, feel
 | Shrink                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Sigmoid                   | Native          | Native | See **Activation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Sign                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
-| Sin                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
+| Sin                       | Native (as of TensorRT 8.6.12)          | Native (as of DLA 3.14.0)  | See **Unary layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Sinh                      | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | Slice                     | Native         | Native | See **Slice layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)                                                                                                |
 | Softmax                   | Native         | Native | See **SoftMax layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
