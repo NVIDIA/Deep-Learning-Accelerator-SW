@@ -71,7 +71,7 @@ If you are interested in a specific DLA operator to be enabled in TensorRT, feel
 | Gemm                      | Native          | [See RFE](#request-for-enhancements-rfe) | The second input must be a constant, also see **Convolution and Fully Connected layers** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest). TensorRT can translate this to a 1x1 Conv internally.
 | GlobalAveragePool         | [See RFE](#request-for-enhancements-rfe)          | Native |
 | GlobalLpPool             | [See RFE](#request-for-enhancements-rfe)          |  Native (as of DLA 3.14.0) |
-| GlobalMaxPool             | Native (as of TensorRT 8.6.12)          | Native | See **Reduce layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest). Older releases: Can be reconstructied by decomposing into several MaxPool nodes.
+| GlobalMaxPool             | Native (as of TensorRT 8.6.12)          | Native | See **Reduce layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest). Older releases: Can be reconstructed by decomposing into several MaxPool nodes.
 | Greater                   | Native (as of TensorRT 8.6.12)         | Native (as of DLA 3.14.0) | See **Comparison operations** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | GreaterOrEqual            | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | GroupNormalization            | [See RFE](#request-for-enhancements-rfe)      | Reconstruction (as of DLA 3.14.0) | Can be expressed with ReduceMean, Sub, Pow, Add, Sqrt, Div, Mul
@@ -107,14 +107,14 @@ If you are interested in a specific DLA operator to be enabled in TensorRT, feel
 | PRelu                     | Native          | Native | See **Parametric ReLU layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | QuantizeLinear          | Reconstruction          | Reconstruction | Can be collapsed to INT8 scaling factor, switching from explicit to implicit quantization	
 | Reciprocal                | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
-| GlobalMaxPool             | Native (as of TensorRT 8.6.12)          | Native | See **Reduce layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest). Older releases: Can be reconstructied by decomposing into several MaxPool nodes.
-| ReduceMean                | [See RFE](#request-for-enhancements-rfe)          | Native| Can be reconstructied by decomposing into several AveragePool or Conv nodes
+| GlobalMaxPool             | Native (as of TensorRT 8.6.12)          | Native | See **Reduce layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest). Older releases: Can be reconstructed by decomposing into several MaxPool nodes.
+| ReduceMean                | [See RFE](#request-for-enhancements-rfe)          | Native| Can be reconstructed by decomposing into several AveragePool or Conv nodes
 | ReduceMin                 | [See RFE](#request-for-enhancements-rfe)          | Native|
 | ReduceLogSum                       | [See RFE](#request-for-enhancements-rfe)          | Reconstruction (as of DLA 3.14.0) | Can be expressed with Log, ReduceSum and Exp
 | ReduceLogSumExp                       | [See RFE](#request-for-enhancements-rfe)          | Reconstruction (as of DLA 3.14.0) | Can be expressed with ReduceSum and Log
 | ReduceL1                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
 | ReduceL2                       | [See RFE](#request-for-enhancements-rfe)          | Native (as of DLA 3.14.0) |
-| ReduceSum                | Reconstruction          |  Native (as of DLA 3.14.0) | Can be reconstructied by decomposing into Conv nodes or several AveragePool nodes while re-scaling with for example BatchNormalization (TensorRT Scale layer)
+| ReduceSum                | Reconstruction          |  Native (as of DLA 3.14.0) | Can be reconstructed by decomposing into Conv nodes or several AveragePool nodes while re-scaling with for example BatchNormalization (TensorRT Scale layer)
 | ReduceSumSquare                | [See RFE](#request-for-enhancements-rfe)          |  Native (as of DLA 3.14.0) |
 | Relu                      | Native          | Native | See **Activation layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
 | Reshape                   | Native          | Native | See **Shuffle layer** in [Layer Support and Restrictions](https://docs.nvidia.com/deeplearning/tensorrt/developer-guide/index.html#dla-lay-supp-rest)
