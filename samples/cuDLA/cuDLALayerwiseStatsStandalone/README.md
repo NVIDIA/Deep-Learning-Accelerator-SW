@@ -2,7 +2,8 @@
 
 ## Description
 
-This sample is used to provide layerwise statistics to the application in [cuDLA standalone mode](https://docs.nvidia.com/cuda/cuda-for-tegra-appnote/index.html#memory-model) where DLA is programmed without using CUDA.
+This sample is used to provide layerwise statistics to the application in [cuDLA standalone mode](https://docs.nvidia.com/cuda/cuda-for-tegra-appnote/index.html#memory-model) wherein CUDA is used to run inference on DLA.
+
 * Sample output:
   <pre><code>./cuDLALayerwiseStatsStandalone model_loadable.bin 1152 1 standalone1
   cat standalone11.csv
@@ -34,7 +35,7 @@ Linux, QNX
 | Hardware platform | OS | DLA SW version |
 | -------- | -------- | -------- |
 | DRIVE Orin (Automotive) | DRIVE OS 6.0.8.0 (not supported in QNX Safety)| DLA 3.14.0 |
-| Jetson Orin (Embedded) | JetPack 6.0 (unreleased) | DLA 3.14.1 |
+| Jetson Orin (Embedded) | JetPack 6.0 | DLA 3.14.1 |
 
 ## Supported CPU Architecture
 
@@ -75,7 +76,7 @@ The samples makefiles can take advantage of certain options:
      2) On the target ``trtexec`` bin can be found in ``/usr/src/tensorrt/bin/`` path.
      3) DLA loadable can be generated with *trtexec* bin with the command
         ``` ./trtexec <Model options> --saveEngine=<Name for output DLA file> --useDLACore=<Index of DLA core> --inputIOFormats=<Input format> --outputIOFormats=<Output format> --buildDLAStandalone ```
-   4) Run `./trtexec --help` command to find out more info on all the flags supported by `trtexec`.  Eg: Model options, Build options, Inference options etc. One such important flag is `--profilingVerbosity`. *In the current TRT version (8.6.11) this flag isn't supported and the flag is always set to `layer_names_only` which cannot be modified. `detailed` and `none` options of the flag will be supported in the future TRT versions*. This flag allows the users to specify:
+   4) Run `./trtexec --help` command to find out more info on all the flags supported by `trtexec`.  Eg: Model options, Build options, Inference options etc. One such important flag is `--profilingVerbosity`. *In TensorRT version 8.6.12 and earlier, this flag isn't supported and the flag is always set to `layer_names_only` which cannot be modified. `detailed` and `none` options of the flag will be supported in the future TRT versions.* This flag allows the users to specify:
          * `layer_names_only` : Print only the layer names. This is the default setting.
          * `detailed` : Print detailed layer information including layer names and layer parameters.
          * `none` : Do not print any layer information.
@@ -109,7 +110,7 @@ DLA clock frequency can be queried using the command:
   5) Run the sample<pre><code>./cuDLALayerwiseStatsStandalone model_loadable.bin 1152 1 standalone1</pre></code> Layerwise statistics profiling data will be populated in the file with name `standalone11.csv` (see example on top).
 
 ## Interpretation of results
-With the latest available TRT version (8.6.11) only layer_name, start_ms and end_ms columns are supported and populated in the output file(s). In future versions of TRT, more detailed profiling data will be available in the output file(s).
+With TensorRT version 8.6.12 and earlier only layer_name, start_ms and end_ms columns are supported and populated in the output file(s). In future versions of TRT, more detailed profiling data will be available in the output file(s).
 
 __layer_name__: Layer name after all fusions inside the DLA Compiler.
 
