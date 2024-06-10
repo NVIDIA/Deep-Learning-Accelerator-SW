@@ -7,7 +7,7 @@ Translate ONNX models from QAT graphs – the result of Quantization-Aware Train
 | Hardware platform | OS | DLA SW version |
 | -------- | -------- | -------- |
 | DRIVE Orin (Automotive) | DRIVE OS 6.0.7.0 | DLA 3.13.0 |
-| Jetson Orin (Embedded) | JetPack 6.0 (future) | DLA 3.14.1 |
+| Jetson Orin (Embedded) | JetPack 6.0 | DLA 3.14.1 |
 
 Process for a ResNet-50 example model in a nutshell:
 ```sh
@@ -150,9 +150,15 @@ This will allow to run all nodes above in INT8 on DLA through TensorRT.
     This allows those ops to run in the appropriate precision for optimal kernel fusions in TensorRT but may result in accuracy drop if used incorrectly.
     To extend it, please use the `--addtl_ops_to_infer_adjacent_scales` flag.
 
+## COCO 2017 val mAP with TensorRT 8.6 (on NVIDIA DRIVE Orin)
+| Model                                  | Original FP32 Model | INT8 Model converted by QDQ Translator<br>*(Implicit Quantization with calibration table, without Q/DQ nodes)* |
+|----------------------------------------|---------------------------------|----------------------------------|
+| [YOLOv5s @ 672x672](https://github.com/NVIDIA-AI-IOT/cuDLA-samples) | 37.4                           | 37.3                            |
+
+As shown in the [YOLOv5 cuDLA sample](https://github.com/NVIDIA-AI-IOT/cuDLA-samples) mentioned above and the [corresponding blog post](https://developer.nvidia.com/blog/deploying-yolov5-on-nvidia-jetson-orin-with-cudla-quantization-aware-training-to-inference/), model trained with [NVIDIA's pytorch-quantization toolkit](https://github.com/NVIDIA/TensorRT/tree/main/tools/pytorch-quantization) and evaluated on NVIDIA DRIVE Orin.
 
 ## ImageNet Top-1 accuracies with TensorRT 8.6-EA (on NVIDIA GeForce RTX™ 3090)
-| Model                                  | Original Model<br>*(Explicit Quantization, with Q/DQ nodes)* | Model converted by QDQ Translator<br>*(Implicit Quantization with calibration table, without Q/DQ nodes)* |
+| Model                                  | Original INT8 Model<br>*(Explicit Quantization, with Q/DQ nodes)* | INT8 Model converted by QDQ Translator<br>*(Implicit Quantization with calibration table, without Q/DQ nodes)* |
 |----------------------------------------|---------------------------------|----------------------------------|
 | [ResNet-50v1](./e2e_workflow/tensorflow_workflow/) | 75.18%                           | 75.22%                            |
 | ResNet-50v2                            | 75.77%                           | 73.87%                            |
