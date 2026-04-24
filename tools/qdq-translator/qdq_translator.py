@@ -605,6 +605,17 @@ class QATModelParser:
 
         model = onnx.shape_inference.infer_shapes(model)
         graph = gs.import_onnx(model)
+        if 'fuse_bn_into_conv' in post_opt_passes:
+            has_bn_fp16 = any(
+                n.op == 'BatchNormalization'
+                and any(isinstance(c, gs.Constant) and c.values.dtype == np.float16 for c in n.inputs)
+                for n in graph.nodes
+            )
+            if has_bn_fp16:
+                logging.warning(
+                    'Skipping fuse_bn_into_conv: onnxoptimizer decomposes BN with fp16 params '
+                    '(see https://github.com/onnx/optimizer/blob/master/onnxoptimizer/passes/fuse_bn_into_conv.h#L40).')
+                post_opt_passes = [p for p in post_opt_passes if p != 'fuse_bn_into_conv']
         if rename_node_outputs:
             for node in graph.nodes:
                 for idx, out in enumerate(node.outputs):

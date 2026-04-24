@@ -5,6 +5,7 @@ Dates are in YYYY-MM-DD format.
 ## Unreleased
 
 - Added support for translating models with a standalone DequantizeLinear connected to an int8/uint8 graph input.
+- Skip the onnxoptimizer ``fuse_bn_into_conv`` pass when any BatchNormalization parameter is fp16, to avoid graph decomposition (see https://github.com/onnx/optimizer/blob/master/onnxoptimizer/passes/fuse_bn_into_conv.h#L40).
 
 ## v0.2.0 (2023-08-09)
 
