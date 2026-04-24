@@ -289,11 +289,38 @@ class QATModelParser:
         return quant_scales
 
     @staticmethod
+    def _remove_input_dq(graph: gs.Graph, precision_config: Dict[str, float]):
+        """Strip DequantizeLinear nodes that consume an int8/uint8 graph input directly."""
+        gin_names = {i.name for i in graph.inputs}
+        for dq in list(graph.nodes):
+            if dq.op != "DequantizeLinear":
+                continue
+            x = dq.inputs[0]
+            if not (isinstance(x, gs.Variable) and x.name in gin_names
+                    and len(x.inputs) == 0 and x.dtype in (np.int8, np.uint8)):
+                continue
+            dq_out = dq.outputs[0]
+            if isinstance(dq.inputs[1], gs.Constant):
+                dq_scale = dq.inputs[1].values
+            else:
+                dq_scale = dq.inputs[1].inputs[0].attrs["value"].values
+            if len(dq.inputs) > 2 and isinstance(dq.inputs[2], gs.Constant):
+                assert (dq.inputs[2].values == 0).all()
+            precision_config[x.name] = float(dq_scale)
+            # Flip to float dtype so downstream consumers pass ONNX type checks; binding-side int8 is reasserted via TRT flags + precision_config.
+            x.dtype = dq_out.dtype
+            for node in graph.nodes:
+                QATModelParser.node_replace_input(node, dq_out.name, x, None, None)
+            QATModelParser.graph_replace_output(graph, dq_out.name, x)
+            dq.outputs.clear()
+
+    @staticmethod
     def extract_precision_config(graph: gs.Graph, calibration_type: str):
         precision_config = {}
         # Check for all zero weighted inputs of QuantizeLinear and
         # Conv nodes and add to this set to skip for the later check
         zero_check_skip = set()
+        QATModelParser._remove_input_dq(graph, precision_config)
         for node in graph.nodes:
             if node.op != "QuantizeLinear":
                 if node.op in ("Conv", "ConvTranspose", "Gemm"):

@@ -1,6 +1,11 @@
 # NVIDIA QDQ Translator change log
 
 Dates are in YYYY-MM-DD format.
+
+## Unreleased
+
+- Added support for translating models with a standalone DequantizeLinear connected to an int8/uint8 graph input.
+
 ## v0.2.0 (2023-08-09)
 
 - Added "infer_mul_scales" arg for handling Mul op.
