@@ -1,6 +1,11 @@
 # NVIDIA QDQ Translator change log
 
 Dates are in YYYY-MM-DD format.
+
+## Unreleased
+
+- Fixed scale inference incorrectly quantizing graph output tensors without a Q/DQ node, mitigating accuracy degradation (ex: logits output in classifier models).
+
 ## v0.2.0 (2023-08-09)
 
 - Added "infer_mul_scales" arg for handling Mul op.
