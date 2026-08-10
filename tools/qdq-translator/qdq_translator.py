@@ -266,6 +266,29 @@ class QATModelParser:
                 graph.outputs[index] = tensor
 
     @staticmethod
+    def _constant_values(tensor: Union[gs.Variable, gs.Constant]):
+        if isinstance(tensor, gs.Constant):
+            return tensor.values
+        if isinstance(tensor, gs.Variable) and len(tensor.inputs) == 1:
+            producer = tensor.inputs[0]
+            if producer.op == "Constant" and "value" in producer.attrs:
+                return producer.attrs["value"].values
+        return None
+
+    @staticmethod
+    def _is_fp16_constant(tensor: Union[gs.Variable, gs.Constant]):
+        values = QATModelParser._constant_values(tensor)
+        return values is not None and values.dtype == np.float16
+
+    @staticmethod
+    def _has_bn_fp16_params(graph: gs.Graph):
+        return any(
+            node.op == 'BatchNormalization'
+            and any(QATModelParser._is_fp16_constant(input_tensor) for input_tensor in node.inputs)
+            for node in graph.nodes
+        )
+
+    @staticmethod
     def extract_qdq_scales(quantize_node: gs.Node, dequantize_node: gs.Node):
         if dequantize_node.op != "DequantizeLinear":
             raise ValueError("The dequantize node must be DequantizeLinear type.")
@@ -300,13 +323,13 @@ class QATModelParser:
                     and len(x.inputs) == 0 and x.dtype in (np.int8, np.uint8)):
                 continue
             dq_out = dq.outputs[0]
-            if isinstance(dq.inputs[1], gs.Constant):
-                dq_scale = dq.inputs[1].values
-            else:
-                dq_scale = dq.inputs[1].inputs[0].attrs["value"].values
-            if len(dq.inputs) > 2 and isinstance(dq.inputs[2], gs.Constant):
-                assert (dq.inputs[2].values == 0).all()
-            precision_config[x.name] = float(dq_scale)
+            dq_scale = QATModelParser._constant_values(dq.inputs[1])
+            assert dq_scale is not None
+            if len(dq.inputs) > 2:
+                dq_zero = QATModelParser._constant_values(dq.inputs[2])
+                assert dq_zero is not None
+                assert (dq_zero == 0).all()
+            precision_config[x.name] = float(np.asarray(dq_scale).item())
             # Flip to float dtype so downstream consumers pass ONNX type checks; binding-side int8 is reasserted via TRT flags + precision_config.
             x.dtype = dq_out.dtype
             for node in graph.nodes:
@@ -606,12 +629,7 @@ class QATModelParser:
         model = onnx.shape_inference.infer_shapes(model)
         graph = gs.import_onnx(model)
         if 'fuse_bn_into_conv' in post_opt_passes:
-            has_bn_fp16 = any(
-                n.op == 'BatchNormalization'
-                and any(isinstance(c, gs.Constant) and c.values.dtype == np.float16 for c in n.inputs)
-                for n in graph.nodes
-            )
-            if has_bn_fp16:
+            if QATModelParser._has_bn_fp16_params(graph):
                 logging.warning(
                     'Skipping fuse_bn_into_conv: onnxoptimizer decomposes BN with fp16 params '
                     '(see https://github.com/onnx/optimizer/blob/master/onnxoptimizer/passes/fuse_bn_into_conv.h#L40).')
