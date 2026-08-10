@@ -440,6 +440,7 @@ class QATModelParser:
         zero_check_skip: Set[str]
     ):
         graph.toposort()
+        graph_output_names = {t.name for t in graph.outputs}
         node_list = graph.nodes
         if not downstream:
             node_list = node_list[::-1]
@@ -453,15 +454,15 @@ class QATModelParser:
                         for concat_inp in node.inputs:
                             if concat_inp.name in precision_config.keys() and precision_config[concat_inp.name] >= max_input_scale:
                                 max_input_scale = precision_config[concat_inp.name]
-                        if max_input_scale != -np.inf:
+                        if max_input_scale != -np.inf and out_name not in graph_output_names:
                             precision_config[out_name] = max_input_scale
                     elif node.op == 'Sigmoid':
-                        if out_name not in precision_config.keys() and 'Mul' in ops_to_infer_adjacent_scales and QATModelParser.find_with_input_node(graph,  node.outputs[0]).op == 'Mul':
+                        if out_name not in precision_config.keys() and out_name not in graph_output_names and 'Mul' in ops_to_infer_adjacent_scales and QATModelParser.find_with_input_node(graph,  node.outputs[0]).op == 'Mul':
                                 zero_check_skip.add(out_name)
-                                precision_config[out_name] = 1/127.            
+                                precision_config[out_name] = 1/127.
                     else:
                         if in_name in precision_config.keys(
-                        ) and out_name not in precision_config.keys():
+                        ) and out_name not in precision_config.keys() and out_name not in graph_output_names:
                             precision_config[out_name] = precision_config[in_name]
                 elif out_name in precision_config.keys() and in_name not in precision_config.keys(
                 ):
