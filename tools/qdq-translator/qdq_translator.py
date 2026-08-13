@@ -266,6 +266,29 @@ class QATModelParser:
                 graph.outputs[index] = tensor
 
     @staticmethod
+    def _constant_values(tensor: Union[gs.Variable, gs.Constant]):
+        if isinstance(tensor, gs.Constant):
+            return tensor.values
+        if isinstance(tensor, gs.Variable) and len(tensor.inputs) == 1:
+            producer = tensor.inputs[0]
+            if producer.op == "Constant" and "value" in producer.attrs:
+                return producer.attrs["value"].values
+        return None
+
+    @staticmethod
+    def _is_fp16_constant(tensor: Union[gs.Variable, gs.Constant]):
+        values = QATModelParser._constant_values(tensor)
+        return values is not None and values.dtype == np.float16
+
+    @staticmethod
+    def _has_bn_fp16_params(graph: gs.Graph):
+        return any(
+            node.op == 'BatchNormalization'
+            and any(QATModelParser._is_fp16_constant(input_tensor) for input_tensor in node.inputs)
+            for node in graph.nodes
+        )
+
+    @staticmethod
     def extract_qdq_scales(quantize_node: gs.Node, dequantize_node: gs.Node):
         if dequantize_node.op != "DequantizeLinear":
             raise ValueError("The dequantize node must be DequantizeLinear type.")
@@ -289,11 +312,38 @@ class QATModelParser:
         return quant_scales
 
     @staticmethod
+    def _remove_input_dq(graph: gs.Graph, precision_config: Dict[str, float]):
+        """Strip DequantizeLinear nodes that consume an int8/uint8 graph input directly."""
+        gin_names = {i.name for i in graph.inputs}
+        for dq in list(graph.nodes):
+            if dq.op != "DequantizeLinear":
+                continue
+            x = dq.inputs[0]
+            if not (isinstance(x, gs.Variable) and x.name in gin_names
+                    and len(x.inputs) == 0 and x.dtype in (np.int8, np.uint8)):
+                continue
+            dq_out = dq.outputs[0]
+            dq_scale = QATModelParser._constant_values(dq.inputs[1])
+            assert dq_scale is not None
+            if len(dq.inputs) > 2:
+                dq_zero = QATModelParser._constant_values(dq.inputs[2])
+                assert dq_zero is not None
+                assert (dq_zero == 0).all()
+            precision_config[x.name] = float(np.asarray(dq_scale).item())
+            # Flip to float dtype so downstream consumers pass ONNX type checks; binding-side int8 is reasserted via TRT flags + precision_config.
+            x.dtype = dq_out.dtype
+            for node in graph.nodes:
+                QATModelParser.node_replace_input(node, dq_out.name, x, None, None)
+            QATModelParser.graph_replace_output(graph, dq_out.name, x)
+            dq.outputs.clear()
+
+    @staticmethod
     def extract_precision_config(graph: gs.Graph, calibration_type: str):
         precision_config = {}
         # Check for all zero weighted inputs of QuantizeLinear and
         # Conv nodes and add to this set to skip for the later check
         zero_check_skip = set()
+        QATModelParser._remove_input_dq(graph, precision_config)
         for node in graph.nodes:
             if node.op != "QuantizeLinear":
                 if node.op in ("Conv", "ConvTranspose", "Gemm"):
@@ -579,6 +629,12 @@ class QATModelParser:
 
         model = onnx.shape_inference.infer_shapes(model)
         graph = gs.import_onnx(model)
+        if 'fuse_bn_into_conv' in post_opt_passes:
+            if QATModelParser._has_bn_fp16_params(graph):
+                logging.warning(
+                    'Skipping fuse_bn_into_conv: onnxoptimizer decomposes BN with fp16 params '
+                    '(see https://github.com/onnx/optimizer/blob/master/onnxoptimizer/passes/fuse_bn_into_conv.h#L40).')
+                post_opt_passes = [p for p in post_opt_passes if p != 'fuse_bn_into_conv']
         if rename_node_outputs:
             for node in graph.nodes:
                 for idx, out in enumerate(node.outputs):
