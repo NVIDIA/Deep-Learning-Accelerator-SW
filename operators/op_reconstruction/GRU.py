@@ -418,7 +418,7 @@ class GRU(Operator):
             assert input_shapes is not None
             if incremental_vals:
                 input_data = [
-                    np.arange(np.product(shape), dtype=np.float32).reshape(shape)
+                    np.arange(np.prod(shape), dtype=np.float32).reshape(shape)
                     for shape in input_shapes
                 ]
             else:
