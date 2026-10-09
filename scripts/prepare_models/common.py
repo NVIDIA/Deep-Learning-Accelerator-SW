@@ -60,12 +60,20 @@ def fuse_convs_horizontally(graph, fuse_conv_outputs, new_names=None):
         assert len(convs) > 0
         first_conv = convs[0]
         first_weights = first_conv.inputs[1]
-        first_bias = first_conv.inputs[2] if len(first_conv.inputs) > 1 else np.zeros(
-            first_weights.shape[0], dtype=first_weights.dtype)
+        if len(first_conv.inputs) > 2:
+            first_bias = first_conv.inputs[2]
+        else:
+            first_bias = gs.Constant(name=f'{first_conv.name}_bias',
+                                     values=np.zeros(first_weights.shape[0],
+                                                     dtype=first_weights.dtype))
+            first_conv.inputs.append(first_bias)
         for conv in convs[1:]:
             conv_weights = conv.inputs[1]
-            bias = conv.inputs[2] if len(conv.inputs) > 1 else np.zeros(conv_weights.shape[0],
-                                                                        dtype=conv_weights.dtype)
+            if len(conv.inputs) > 2:
+                bias = conv.inputs[2]
+            else:
+                bias = gs.Constant(name=f'{conv.name}_bias',
+                                   values=np.zeros(conv_weights.shape[0], dtype=conv_weights.dtype))
             assert conv.attrs == first_conv.attrs
             assert conv_weights.shape[1] == first_weights.shape[1]
             assert tuple(conv_weights.shape[2:4]) == tuple(first_weights.shape[2:4])
