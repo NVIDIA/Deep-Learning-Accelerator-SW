@@ -114,7 +114,7 @@ class Operator():
         ranges_dict = OrderedDict()
         offset = 0
         for key, (low, high) in key_to_range.items():
-            scale = max(abs(low), abs(high)) / 127.0
+            scale = float(max(abs(low), abs(high)) / 127.0)
             ranges_dict[key] = dict(scale=scale, min=float(low), max=float(high), offset=offset)
         with open(json_path, 'w') as outfile:
             outfile.write(json.dumps(ranges_dict, indent=4))
