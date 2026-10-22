@@ -1,29 +1,28 @@
 #
-# SPDX-FileCopyrightText: Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Copyright (c) 2023-2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
 #
-# NVIDIA CORPORATION, its affiliates and licensors retain all intellectual
-# property and proprietary rights in and to this material, related
-# documentation and any modifications thereto. Any use, reproduction,
-# disclosure or distribution of this material and related documentation
-# without an express license agreement from NVIDIA CORPORATION or
-# its affiliates is strictly prohibited.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-"""Taken from https://julienharbulot.com/python-dynamical-import.html"""
-from inspect import isclass
-from pkgutil import iter_modules
-from pathlib import Path
-from importlib import import_module
-
-# iterate through the modules in the current package
-package_dir = Path(__file__).resolve().parent
-for (_, module_name, _) in iter_modules([package_dir]):
-
-    # import the module and iterate through its attributes
-    module = import_module(f"{__name__}.{module_name}")
-    for attribute_name in dir(module):
-        attribute = getattr(module, attribute_name)
-
-        if isclass(attribute):
-            # Add the class to this package's variables
-            globals()[attribute_name] = attribute
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+"""Op reconstructions for ONNX ops that are not natively supported on DLA."""
+from .And import And
+from .DepthToSpace import DepthToSpace
+from .Gather import Gather
+from .GRU import GRU
+from .Neg import Neg
+from .Not import Not
+from .Or import Or
+from .ScatterElements import ScatterElements
+from .SpaceToDepth import SpaceToDepth
+from .Where import Where
+from .Xor import Xor
