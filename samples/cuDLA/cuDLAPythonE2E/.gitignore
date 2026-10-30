@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Local virtual environments
+venv/
+.venv/
+
+# Generated output images (keep the directory, not its contents)
+output/*
+!output/.gitkeep
+
+# Downloaded model and locally generated subgraphs / target loadable
+/models/
