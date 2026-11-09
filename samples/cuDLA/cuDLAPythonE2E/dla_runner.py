@@ -140,5 +140,6 @@ class DLABackend:
             cuda_mem.free(self.in_gpu)
             cuda_mem.free(self.out_gpu)
             cuda_mem.destroy_stream(self.stream)
-        except Exception:
+        except Exception as e:
+            print(f"cuDLA/CUDA teardown failed: {e}")
             pass

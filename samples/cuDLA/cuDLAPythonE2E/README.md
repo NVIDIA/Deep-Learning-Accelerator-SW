@@ -1,9 +1,9 @@
 # cuDLA Python end-to-end sample — ResNet-50 on Jetson DLA
 
-An end-to-end image classifier that runs the heavy ResNet-50
-backbone on the Jetson **DLA** using **cuda-python + cuDLA python**, with the
-lightweight stem/head on the GPU via **ONNX Runtime**. Pre/post-processing is
-plain **NumPy**.
+A GPU + DLA hybrid image classifier: the ResNet-50 backbone runs on the Jetson
+**DLA** using **cuda-python + cuDLA python**, with the stem/head on the GPU via
+**ONNX Runtime**. The split is chosen to demonstrate a hybrid pipeline, not
+required by DLA. Pre/post-processing is plain **NumPy**.
 
 Given `dog.jpg`, it prints the predicted breed and writes an annotated image:
 
@@ -273,7 +273,7 @@ curl --fail --location -o models/resnet50-v1-12.onnx \
 - `resnet50-v1-12.onnx` — the original full model (as downloaded above).
 - `resnet50_stem.onnx` / `resnet50_head.onnx` — the GPU stem/head subgraphs, cut
 out of the full model at the DLA boundaries.
-- `resnet50_v1_prepared.onnx` — the DLA-compatible backbone (trimmed at the
+- `resnet50_v1_prepared.onnx` — the backbone this demo runs on DLA (trimmed at the
 DLA cut points and converted to FP16; BatchNormalization nodes are preserved).
 - `resnet50_v1_prepared.loadable` — that backbone compiled to a DLA loadable for
 this board (FP16, `CHW16`).
@@ -323,4 +323,7 @@ points the stem produces and the head consumes.
 Sample code is licensed under [Apache-2.0](LICENSE). The bundled images and
 `assets/synset.txt` retain their upstream licenses; see this sample's
 [LICENSE](LICENSE) for attribution and third-party notices. The downloaded model
-is governed by its upstream Apache-2.0 license.
+Sample code is licensed under [Apache-2.0](../../../LICENSE). The bundled images and
+`assets/synset.txt` retain their upstream licenses; see [NOTICE](NOTICE) for
+attribution and third-party notices. The downloaded model is governed by its
+upstream Apache-2.0 license.

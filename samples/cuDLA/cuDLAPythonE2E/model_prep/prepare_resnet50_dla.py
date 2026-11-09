@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
-"""Prepare resnet50-v1-12.onnx for DLA compilation on Orin.
+"""Split resnet50-v1-12.onnx for the GPU+DLA hybrid demo. 
 
 Usage:
     python3 prepare_resnet50_dla.py [--input resnet50-v1-12.onnx] \
@@ -15,7 +15,7 @@ The script produces the **three** artifacts the hybrid GPU+DLA pipeline needs:
     ├ backbone resnetv17_pool0_fwd -> ..stage4_act2   [N,  64, 56, 56] -> [N,2048, 7, 7]  (DLA)
     └ head     ..stage4_activation2 -> ..dense0_fwd   [N,2048,  7,  7] -> [N,1000]        (GPU)
 
-* **backbone** (``--output``) is trimmed to the layers the Orin DLA can accept
+* **backbone** (``--output``) is the subgraph this demo places on the DLA,
   and is what gets compiled to a DLA loadable (e.g. via
   ``trtexec --buildDLAStandalone``). BatchNormalization nodes are preserved.
   Pass ``--fp16`` to convert the backbone's FP32 tensors and weights to FP16,
@@ -35,24 +35,22 @@ batch is fine.
 
 Pipeline
 --------
-1. Trim the stem MaxPool and the classification head (see "DLA-incompatible
-   layers removed" below) so the backbone graph contains only ResNet-50 stages
-   1-4 (Conv + BatchNormalization + ReLU + residual Add).
+  1. Cut the graph at the two boundary tensors below (see "Why this split") so
+     the backbone graph contains only ResNet-50 stages 1-4 (Conv +
+     BatchNormalization + ReLU + residual Add).
+  
 2. Extract the stem (original input -> backbone input) and head (backbone output
    -> original output) subgraphs from the original model.
 
-DLA-incompatible layers removed (they become the stem/head instead)
--------------------------------------------------------------------
-1. Stem MaxPool  resnetv17_pool0_fwd  (MaxPool 3x3/2 on 112x112x64)
-   DLA compiler error code 2 on this layer with TRT 10.x.
+Why this split
+--------------
+The split is a manual partition chosen to demonstrate a GPU -> DLA -> GPU
+pipeline with cuDLA. It is not a DLA limitation: the whole ResNet-50 can run
+end-to-end on DLA by replacing the Flatten + Gemm head with an equivalent
+1x1 Conv. 
 
-2. Classification head:
-   - GlobalAveragePool  resnetv17_pool1_fwd  (2048x7x7 -> 2048x1x1)
-     TRT 10.x maps GlobalAveragePool to an internal Reduce op which DLA
-     does not support.  Manually converting it to AveragePool(kernel=7x7)
-     also fails with error code 2 (DLA channel*kernel constraint).
-   - Flatten  flatten_473
-   - Gemm/FC  resnetv17_dense0_fwd  (1000 classes)
+  stem (GPU):  Conv 7x7/2 + BatchNormalization + Relu + MaxPool 3x3/2
+  head (GPU):  GlobalAveragePool + Flatten + Gemm (1000 classes)
 
 Resulting backbone subgraph
 ---------------------------
