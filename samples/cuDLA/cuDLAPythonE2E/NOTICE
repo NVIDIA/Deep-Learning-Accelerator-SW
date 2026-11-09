@@ -1,0 +1,54 @@
+cuDLA end-to-end sample
+Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+Third-party notices
+
+The sample code is licensed under Apache-2.0; see ../../../LICENSE at the
+repository root for the license text. The bundled images retain their separate
+licenses as detailed below.
+
+1. Sample images under assets/
+
+assets/cat.jpg
+  Author:   unknown / not attributed on Wikimedia Commons
+  License:  CC0 1.0 Universal (Public Domain Dedication)
+  Source:   https://commons.wikimedia.org/wiki/File:Tabby_cat_with_blue_eyes-3336579.jpg
+  Changes:  downscaled (long side <= 1024 px); no other changes
+
+assets/dog.jpg
+  Author:   unknown / not attributed on Wikimedia Commons
+  License:  CC0 1.0 Universal (Public Domain Dedication)
+  Source:   https://commons.wikimedia.org/wiki/File:Golden-retriever-dog-1362597631o6g.jpg
+  Changes:  downscaled (long side <= 1024 px); no other changes
+
+assets/lion.jpg
+  Author:   Kevin Pluck
+  License:  Creative Commons Attribution 2.0 Generic (CC BY 2.0)
+  Source:   https://commons.wikimedia.org/wiki/File:Lion_waiting_in_Namibia.jpg
+  Changes:  downscaled (long side <= 1024 px); no other changes
+
+CC0 1.0: https://creativecommons.org/publicdomain/zero/1.0/
+CC BY 2.0: https://creativecommons.org/licenses/by/2.0/
+
+--------------------------------------------------------------------------------
+2. assets/synset.txt (Apache-2.0)
+
+File:
+  assets/synset.txt
+
+Source:
+  ONNX Model Zoo ILSVRC-2012 synset
+  https://github.com/onnx/models
+  (validated/vision/classification/synset.txt)
+
+Copyright:
+  Copyright holders of the ONNX Model Zoo (see that project notices).
+
+License:
+  Apache License, Version 2.0
+  See ../../../LICENSE at the repository root for the Apache-2.0 license text.
+
+NVIDIA changes:
+  None. The file is redistributed unmodified. At runtime, load_labels() in
+  imagenet.py reads each line and uses the first human-readable name after the
+  WordNet ID (e.g. "n02099601 golden retriever" -> "golden retriever").

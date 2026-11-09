@@ -10,7 +10,7 @@ This model is not owned or developed by NVIDIA. This model has been developed an
 
 ### License/Terms of Use:
 GOVERNING DOWNLOAD TERMS: Use of the model is governed by the [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0).
-The sample code is also licensed under [Apache-2.0](LICENSE). Notices for the bundled images and `assets/synset.txt` are preserved in this sample's [LICENSE](LICENSE).
+The sample code is also licensed under [Apache-2.0](../../../LICENSE). Notices for the bundled images and `assets/synset.txt` are preserved in this sample's [NOTICE](NOTICE).
 
 ### Deployment Geography:  
 Global

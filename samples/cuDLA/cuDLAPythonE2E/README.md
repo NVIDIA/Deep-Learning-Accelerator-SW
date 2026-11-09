@@ -142,7 +142,8 @@ warm-up and timed inference, and printing affects the reported timing.
 
 `--validate` does not replace the hybrid pipeline. It runs the normal
 GPU → DLA → GPU inference first, then runs the original full model on the GPU
-and compares the predictions.
+and prints its top-1 prediction for manual comparison with the hybrid result.
+No automatic agreement or numerical-tolerance check is performed.
 
 Expected: top-1 `golden retriever (207) ~98.1%`, and an annotated image at
 `output/classified.jpg`.
@@ -223,7 +224,8 @@ preparation.
 - The DLA is a **[low-power](https://github.com/NVIDIA/Deep-Learning-Accelerator-SW/tree/main#dla-performance-per-watt-power-efficiency)** accelerator, not a faster GPU: a single image is not
 the speed win. The value is running the backbone at a small power budget while
 the GPU stays free (higher throughput-per-watt when the GPU is also busy).
-- Single-input/single-output FP16 `CHW16` loadable only (asserted at load).
+- The sample assumes a single-input/single-output FP16 `CHW16` loadable;
+  tensor count, precision, and layout are not validated at load.
 - To classify a different DLA-compatible model, swap the three artifacts
 (`resnet50_stem.onnx`, `resnet50_head.onnx`, `resnet50_v1_prepared.loadable`)
 and update the pre/post-processing in `imagenet.py`.
@@ -320,9 +322,6 @@ points the stem produces and the head consumes.
 
 ## License
 
-Sample code is licensed under [Apache-2.0](LICENSE). The bundled images and
-`assets/synset.txt` retain their upstream licenses; see this sample's
-[LICENSE](LICENSE) for attribution and third-party notices. The downloaded model
 Sample code is licensed under [Apache-2.0](../../../LICENSE). The bundled images and
 `assets/synset.txt` retain their upstream licenses; see [NOTICE](NOTICE) for
 attribution and third-party notices. The downloaded model is governed by its

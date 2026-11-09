@@ -7,10 +7,10 @@ Classifies an image by running the heavy ResNet-50 backbone on the Jetson **DLA*
 via cuda-python + cuDLA, with the stem/head on the GPU via ONNX Runtime.
 Prints the predicted breed and writes an annotated image.
 
-Examples:
-  ./venv/bin/python cudla_e2e_app/run.py
-  ./venv/bin/python cudla_e2e_app/run.py --image my_dog.jpg --topk 5
-  ./venv/bin/python cudla_e2e_app/run.py --dla-core 1 --validate
+Examples (from this sample directory):
+  ./venv/bin/python run.py
+  ./venv/bin/python run.py --image my_dog.jpg --topk 5
+  ./venv/bin/python run.py --dla-core 1 --validate
 """
 from __future__ import annotations
 
