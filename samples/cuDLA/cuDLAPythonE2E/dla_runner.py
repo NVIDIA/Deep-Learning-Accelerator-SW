@@ -142,4 +142,3 @@ class DLABackend:
             cuda_mem.destroy_stream(self.stream)
         except Exception as e:
             print(f"cuDLA/CUDA teardown failed: {e}")
-            pass
