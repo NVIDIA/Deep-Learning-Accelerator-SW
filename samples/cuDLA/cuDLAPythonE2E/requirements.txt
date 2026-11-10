@@ -1,0 +1,26 @@
+# Standalone cuDLA e2e app — setup and runtime dependencies.
+# Reference environment: Jetson AGX Orin, JetPack 7.2-class image (CUDA 13.4,
+# L4T tegra kernel, Python 3.12). Other Python versions need compatible wheels.
+#
+# The pipeline uses:
+#   NumPy + Pillow          — preprocess / postprocess / annotate
+#   onnxruntime-gpu (CUDA)  — GPU stem + head
+#   nvidia-cudnn-cu13       — libcudnn.so.9 for ORT CUDA EP
+#   cuda-bindings           — cuda.bindings.cudla/.driver/.runtime for the DLA
+#   onnx + onnx-graphsurgeon — prepare GPU stem, DLA backbone, and GPU head
+#
+# Install into a local venv (onnxruntime-gpu is only on the Jetson index):
+#   python3 -m venv venv
+#   ./venv/bin/python -m pip install --upgrade pip
+#   ./venv/bin/python -m pip install -r requirements.txt
+
+--index-url https://pypi.jetson-ai-lab.io/sbsa/cu130
+--extra-index-url https://pypi.org/simple
+
+numpy
+pillow
+cuda-bindings==13.4.3
+nvidia-cudnn-cu13
+onnxruntime-gpu==1.24.0
+onnx
+onnx-graphsurgeon
